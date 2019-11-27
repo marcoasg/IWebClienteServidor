@@ -12,7 +12,7 @@ and open the template in the editor.
         
         <!-- INSERT YOUR <CLIENT_ID> IN THE LINE BELOW -->
         
-        <meta name="google-signin-client_id" content="<Client_ID>.apps.googleusercontent.com">
+        <meta name="google-signin-client_id" content="1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com">
         <script>
             function onSignIn(googleUser) {
                 var profile = googleUser.getBasicProfile();
@@ -24,7 +24,7 @@ and open the template in the editor.
                 console.log('ID token: ' + id_token);
                 
                 console.log('You can check the ID token with:');
-                console.log('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=<ID token>')
+                console.log('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+id_token)
                 }
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
