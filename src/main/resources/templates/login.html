@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang=”es” xmlns:th=http://www.thymeleaf.org>
     <head>
         <title>Google OAuth login</title>
         <meta charset="UTF-8">
@@ -27,14 +27,8 @@ and open the template in the editor.
                 console.log('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+id_token);
                 
                 //Envio al backend
-                const form = document.createElement('form');
-                form.method = 'post';
-                form.action = '/login';
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'id_token';
-                hiddenField.value = id_token;
-                form.appendChild(hiddenField);
+                var input = document.getElementById('id_token');
+                input.value = id_token;
                 form.submit();
                 }
             function signOut() {
@@ -49,5 +43,8 @@ and open the template in the editor.
     <body>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <a href="#" onclick="signOut();">Sign out</a>
+        <form id="form" action="#" th:action="@{/}" th:method="post">
+            <input id="id_token" type="hidden" th:name="id_token"/>
+        </form>
     </body>
 </html>

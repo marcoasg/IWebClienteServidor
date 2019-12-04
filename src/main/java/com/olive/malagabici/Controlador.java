@@ -6,8 +6,10 @@
 package com.olive.malagabici;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -21,8 +23,9 @@ public class Controlador {
         return "login";
     }
     
-    @PostMapping("/login")
-    public String doLogin(){
+    @PostMapping("/")
+    public String doLogin(@RequestParam(value="id_token", required=true) String idToken, Model model){
+        model.addAttribute("id_token", idToken);
         return "index";
     }
 }
