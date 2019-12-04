@@ -24,7 +24,18 @@ and open the template in the editor.
                 console.log('ID token: ' + id_token);
                 
                 console.log('You can check the ID token with:');
-                console.log('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+id_token)
+                console.log('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='+id_token);
+                
+                //Envio al backend
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/login';
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'id_token';
+                hiddenField.value = id_token;
+                form.appendChild(hiddenField);
+                form.submit();
                 }
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
@@ -40,4 +51,3 @@ and open the template in the editor.
         <a href="#" onclick="signOut();">Sign out</a>
     </body>
 </html>
-

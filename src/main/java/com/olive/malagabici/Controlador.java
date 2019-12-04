@@ -6,6 +6,7 @@
 package com.olive.malagabici;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,5 +19,10 @@ public class Controlador {
     @RequestMapping("/")
     public String doWelcome(){
         return "login";
+    }
+    
+    @PostMapping("/login")
+    public String doLogin(){
+        return "index";
     }
 }
