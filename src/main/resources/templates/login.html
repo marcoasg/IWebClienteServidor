@@ -43,8 +43,9 @@ and open the template in the editor.
     <body>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <a href="#" onclick="signOut();">Sign out</a>
-        <form id="form" action="#" th:action="@{/}" th:method="post">
+        <form id="form" th:action="@{/}" th:method="post">
             <input id="id_token" type="hidden" th:name="id_token"/>
         </form>
+        <p style="color: red" th:text="${error}"/>
     </body>
 </html>
