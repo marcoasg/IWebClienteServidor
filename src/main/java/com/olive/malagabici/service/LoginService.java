@@ -7,7 +7,7 @@ package com.olive.malagabici.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -23,15 +23,15 @@ import org.springframework.ui.Model;
 @Service
 public class LoginService {
     
-    public String doLogin(String idToken, Model model) throws GeneralSecurityException, IOException{
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())//???
-                // Specify the CLIENT_ID of the app that accesses the backend:
-                .setAudience(Collections.singletonList("1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5"))
-                // Or, if multiple clients access the backend:
-                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+    final static String CLIENT_ID = "1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com";
+    
+    public String doOAuth2Login(String idToken, Model model) throws GeneralSecurityException, IOException{
+        GoogleIdTokenVerifier verifier = 
+                new GoogleIdTokenVerifier.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance())
+                .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
 
-// (Receive idTokenString by HTTPS POST)
+    // (Receive idToken by HTTPS POST)
         GoogleIdToken idTokenObj = verifier.verify(idToken);
         if (idTokenObj != null) {
             GoogleIdToken.Payload payload = idTokenObj.getPayload();

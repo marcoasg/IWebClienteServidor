@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Trigi
  */
 @Controller
-public class Controlador {
+public class LoginController {
     
     @Autowired
     LoginService loginService;
@@ -39,6 +39,7 @@ public class Controlador {
 
     @PostMapping("/")
     public String doLogin(@RequestParam(value = "id_token", required = true) String idToken, Model model) throws GeneralSecurityException, IOException {
-        return loginService.doLogin(idToken, model);
+        System.out.println(idToken);
+        return loginService.doOAuth2Login(idToken, model);
     }
 }
