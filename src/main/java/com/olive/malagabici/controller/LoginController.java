@@ -6,14 +6,11 @@
 package com.olive.malagabici.controller;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.olive.malagabici.service.LoginService;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -33,13 +30,44 @@ public class LoginController {
     LoginService loginService;
 
     @GetMapping("/")
-    public String doWelcome() {
-        return "login";
+    public String doWelcome(HttpServletRequest request) {
+        if (request.getSession(false) != null){
+            return "index";
+        } else {
+            return "login";
+        }
     }
 
     @PostMapping("/")
-    public String doLogin(@RequestParam(value = "id_token", required = true) String idToken, Model model) throws GeneralSecurityException, IOException {
-        System.out.println(idToken);
-        return loginService.doOAuth2Login(idToken, model);
+    public String doLogin(@RequestParam(value = "id_token", required = true) String idToken, Model model, HttpServletRequest request) throws GeneralSecurityException, IOException {
+        GoogleIdTokenVerifier verifier = loginService.getGoogleVerifier();
+        GoogleIdToken idTokenObj = verifier.verify(idToken);
+        if (idTokenObj != null) {
+            GoogleIdToken.Payload payload = idTokenObj.getPayload();
+
+            // Print user identifier
+            String userId = payload.getSubject();
+            System.out.println("User ID: " + userId);
+
+            // Get profile information from payload
+            String email = payload.getEmail();
+            String name = (String) payload.get("name");
+            loginService.registerUser(email, name);
+            request.getSession(true).setAttribute("email", email);
+            
+//            boolean emailVerified = payload.getEmailVerified();
+            
+//            String pictureUrl = (String) payload.get("picture");
+//            String locale = (String) payload.get("locale");
+//            String familyName = (String) payload.get("family_name");
+//            String givenName = (String) payload.get("given_name");
+
+
+            model.addAttribute("id_token", idToken);
+            return "index";
+        } else {
+            model.addAttribute("error", "Error en la autenticación, intente de nuevo.");
+            return "login";
+        }
     }
 }
