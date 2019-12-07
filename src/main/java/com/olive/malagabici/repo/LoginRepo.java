@@ -26,7 +26,7 @@ public class LoginRepo {
                     .append(email)
                     .append("&name=")
                     .append(name)
-                    .toString();
+                    .toString().replaceAll("\\s","");
 
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
