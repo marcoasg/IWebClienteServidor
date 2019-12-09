@@ -5,6 +5,7 @@
  */
 package com.olive.malagabici.service;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -28,7 +29,7 @@ public class LoginService {
     
     final static String CLIENT_ID = "1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com";
     
-    public GoogleIdTokenVerifier getGoogleVerifier() throws GeneralSecurityException, IOException {
+    private GoogleIdTokenVerifier getGoogleVerifier() throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = 
                 new GoogleIdTokenVerifier.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance())
                 .setAudience(Collections.singletonList(CLIENT_ID))
@@ -38,5 +39,11 @@ public class LoginService {
     
     public void registerUser(String email, String name) {
         loginRepo.registerUser(email, name);
+    }
+    
+    public GoogleIdToken verifyToken(String idToken) throws GeneralSecurityException, IOException {
+        GoogleIdTokenVerifier verifier = getGoogleVerifier();
+        GoogleIdToken idTokenObj = verifier.verify(idToken);
+        return idTokenObj;
     }
 }

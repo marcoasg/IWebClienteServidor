@@ -40,28 +40,16 @@ public class LoginController {
 
     @PostMapping("/")
     public String doLogin(@RequestParam(value = "id_token", required = true) String idToken, Model model, HttpServletRequest request) throws GeneralSecurityException, IOException {
-        GoogleIdTokenVerifier verifier = loginService.getGoogleVerifier();
-        GoogleIdToken idTokenObj = verifier.verify(idToken);
+        GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
         if (idTokenObj != null) {
             GoogleIdToken.Payload payload = idTokenObj.getPayload();
-
-            // Print user identifier
-            String userId = payload.getSubject();
-//            System.out.println("User ID: " + userId);
-
+            
             // Get profile information from payload
             String email = payload.getEmail();
-//            String name = (String) payload.get("name");
-            loginService.registerUser(email, idToken);
+            String name = (String) payload.get("name");
+            loginService.registerUser(email, name);
             request.getSession(true).setAttribute("email", email);
-            
-//            boolean emailVerified = payload.getEmailVerified();
-            
-//            String pictureUrl = (String) payload.get("picture");
-//            String locale = (String) payload.get("locale");
-//            String familyName = (String) payload.get("family_name");
-//            String givenName = (String) payload.get("given_name");
-
+            request.getSession().setAttribute("idToken", idToken);
 
             model.addAttribute("id_token", idToken);
             return "index";
