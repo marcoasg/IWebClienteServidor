@@ -5,15 +5,48 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html lang=”es” xmlns:th=http://www.thymeleaf.org>
+    <style>
+      .map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+    
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
+    <style>
+      .map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
     </head>
+    
+    
     <body>
         <div>
             <h1>Hola, </h1>
             <h6 th:text="${id_token}"/>
         </div>
+         <div id="map" class="map"></div>
+    <script type="text/javascript">
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([-4.42, 36.72]),
+          zoom: 18
+        })
+      });
+    </script>
     </body>
 </html>
