@@ -40,7 +40,7 @@ and open the template in the editor.
                 <div class="col">
                 </div>
                 <div class="col">
-                    <div class="btn btn-primary btn-lg" data-onsuccess="onSignIn" data-width="100%"></div>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     <a href="#" onclick="signOut();">Sign out</a>
                     <form id="form" th:action="@{/}" th:method="post">
                         <input id="id_token" type="hidden" th:name="id_token"/>
