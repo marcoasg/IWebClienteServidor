@@ -47,12 +47,12 @@ public class LoginController {
 
             // Print user identifier
             String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
+//            System.out.println("User ID: " + userId);
 
             // Get profile information from payload
             String email = payload.getEmail();
-            String name = (String) payload.get("name");
-            loginService.registerUser(email, name);
+//            String name = (String) payload.get("name");
+            loginService.registerUser(email, idToken);
             request.getSession(true).setAttribute("email", email);
             
 //            boolean emailVerified = payload.getEmailVerified();

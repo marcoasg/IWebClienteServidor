@@ -7,37 +7,53 @@ and open the template in the editor.
 <html lang=”es” xmlns:th=http://www.thymeleaf.org>
     <head>
         <title>Google OAuth login</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <!-- INSERT YOUR <CLIENT_ID> IN THE LINE BELOW -->
-        
+
         <meta name="google-signin-client_id" content="1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com">
         <script>
             function onSignIn(googleUser) {
                 var id_token = googleUser.getAuthResponse().id_token;
                 console.log('ID token: ' + id_token);
-                
+
                 //Envio al backend
                 var input = document.getElementById('id_token');
                 input.value = id_token;
                 form.submit();
-                }
+            }
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
                 auth2.signOut().then(function () {
                     console.log('User signed out.');
-                    });
-                }
+                });
+            }
         </script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
     <body>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        <a href="#" onclick="signOut();">Sign out</a>
-        <form id="form" th:action="@{/}" th:method="post">
-            <input id="id_token" type="hidden" th:name="id_token"/>
-        </form>
-        <p style="color: red" th:text="${error}"/>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <a href="#" onclick="signOut();">Sign out</a>
+                    <form id="form" th:action="@{/}" th:method="post">
+                        <input id="id_token" type="hidden" th:name="id_token"/>
+                    </form>
+                    <p style="color: red" th:text="${error}"/>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
 </html>
