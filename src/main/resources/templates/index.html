@@ -53,10 +53,12 @@ and open the template in the editor.
             var capaFuentes = new ol.layer.Vector({
                 source: new ol.source.Vector({
                     url: urlFuentes,
-                    format: new ol.format.GeoJSON()
+                    format: new ol.format.GeoJSON(),
+                    projection: 'EPSG:4326'
                 })
+                
             });
-
+            
             map.addLayer(capaFuentes);
         </script>
     </body>
