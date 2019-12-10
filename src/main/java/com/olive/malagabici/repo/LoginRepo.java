@@ -17,8 +17,8 @@ import org.apache.http.client.methods.HttpPost;
 @Repository
 public class LoginRepo {
 
-    private static final String URL_SERVER_BD = "http://localhost:8081/IngWebServiciosBD/";
-    private final static String URL_REGISTER_USER = "webresources/entity.usuario/postByString";
+    private static final String URL_SERVER_BD = "http://localhost:8081/IngWebServiciosBD/webresources/";
+    private final static String URL_REGISTER_USER = "entity.usuario/postByString";
 
     public void registerUser(String email, String name) {
         try {
