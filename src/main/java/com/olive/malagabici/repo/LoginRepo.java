@@ -17,11 +17,12 @@ import org.apache.http.client.methods.HttpPost;
 @Repository
 public class LoginRepo {
 
-    private final static String URL_REGISTER_USER = "http://localhost:8081/IngWebServiciosBD/webresources/entity.usuario/postByString";
+    private static final String URL_SERVER_BD = "http://localhost:8081/IngWebServiciosBD/";
+    private final static String URL_REGISTER_USER = "webresources/entity.usuario/postByString";
 
     public void registerUser(String email, String name) {
         try {
-            String url = new StringBuilder(URL_REGISTER_USER)
+            String url = new StringBuilder(URL_SERVER_BD + URL_REGISTER_USER)
                     .append("?email=")
                     .append(email)
                     .append("&name=")
@@ -31,7 +32,7 @@ public class LoginRepo {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
             httpClient.execute(httpPost);
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
