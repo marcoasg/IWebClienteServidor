@@ -22,12 +22,47 @@ and open the template in the editor.
             .col-sm-10 {
                 height: 100%;
             }
+            .ol-popup {
+                position: absolute;
+                background-color: white;
+                -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                padding: 15px;
+                border-radius: 10px;
+                border: 1px solid #cccccc;
+                bottom: 12px;
+                left: -50px;
+                min-width: 280px;
+            }
+            .ol-popup:after, .ol-popup:before {
+                top: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+            .ol-popup:after {
+                border-top-color: white;
+                border-width: 10px;
+                left: 48px;
+                margin-left: -10px;
+            }
+            .ol-popup:before {
+                border-top-color: #cccccc;
+                border-width: 11px;
+                left: 48px;
+                margin-left: -11px;
+            }
+
         </style>
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
     </head>
 
 
     <body>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
@@ -39,142 +74,146 @@ and open the template in the editor.
                 </div>
                 <div class="col-sm-10">
                     <div id="map" class="map"></div> 
+                    <div id="popup" class="ol-popup">
+                        <div id="popup-content"></div>
+                    </div>
                 </div>
+
+
             </div>
 
 
-        </div>
-
-
-        <script type="text/javascript">
-            var map = new ol.Map({
-                target: 'map',
-                layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.OSM()
-                    })
-                ],
-                view: new ol.View({
-                    center: ol.proj.fromLonLat([-4.42, 36.72]),
-                    zoom: 18
-                }),
-            });
-
-
-            var stylesFuentes = {
-                'Point': [new ol.style.Style({
-                        image: new ol.style.Circle({
-                            fill: new ol.style.Fill({color: [255, 0, 0, 1]}),
-                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                            radius: 5
+            <script type="text/javascript">
+                var container = document.getElementById('popup');
+                var content = document.getElementById('popup-content');
+                var map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                            source: new ol.source.OSM()
                         })
-                    })]
-            };
-            var urlFuentes = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuentes';
+                    ],
+                    view: new ol.View({
+                        center: ol.proj.fromLonLat([-4.42, 36.72]),
+                        zoom: 18
+                    }),
+                });
+                var stylesFuentes = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                fill: new ol.style.Fill({color: [255, 0, 0, 1]}),
+                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                                radius: 5
+                            })
+                        })]
+                };
+                var urlFuentes = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuentes';
+                var capaFuentes = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: urlFuentes,
+                        format: new ol.format.GeoJSON(),
+                        projection: 'EPSG:4326'
+                    }),
+                    style: function (feature, resolution) {
+                        return stylesFuentes[feature.getGeometry().getType()];
+                    }
 
-            var capaFuentes = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    url: urlFuentes,
-                    format: new ol.format.GeoJSON(),
-                    projection: 'EPSG:4326'
-                }),
-                style: function (feature, resolution) {
-                    return stylesFuentes[feature.getGeometry().getType()];
-                }
+                });
+                var stylesAparcamientos = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                fill: new ol.style.Fill({color: [0, 255, 0, 1]}),
+                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                                radius: 5
+                            })
+                        })]
+                };
+                var urlAparcamientos = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/aparcamientos_bici';
+                var capaAparcamientos = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: urlAparcamientos,
+                        format: new ol.format.GeoJSON(),
+                        projection: 'EPSG:4326'
+                    }),
+                    style: function (feature, resolution) {
+                        return stylesAparcamientos[feature.getGeometry().getType()];
+                    }
 
-            });
+                });
+                var stylesMusculacion = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                fill: new ol.style.Fill({color: [0, 0, 255, 1]}),
+                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                                radius: 5
+                            })
+                        })]
+                };
+                var urlMusculacion = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/musculacion';
+                var capaMusculacion = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: urlMusculacion,
+                        format: new ol.format.GeoJSON(),
+                        projection: 'EPSG:4326'
+                    }),
+                    style: function (feature, resolution) {
+                        return stylesMusculacion[feature.getGeometry().getType()];
+                    }
+
+                });
+                var checkboxFuentes = document.getElementById("fuentes");
+                checkboxFuentes.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaFuentes);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaFuentes);
+                    }
+                });
+                var checkboxAparcamientos = document.getElementById("aparcamientos");
+                checkboxAparcamientos.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaAparcamientos);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaAparcamientos);
+                    }
+                });
+                var checkboxMusculacion = document.getElementById("musculacion");
+                checkboxMusculacion.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaMusculacion);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaMusculacion);
+                    }
+                });
+                var seleccion = new ol.interaction.Select();
+                map.addInteraction(seleccion);
+                seleccion.on('select', function (e) {
+                    var seleccionados = e.target.getFeatures();
+                    seleccionados.forEach(function (t) {
+                        content.innerHTML = t.get('nombre');
+                        overlay.setPosition(t.getGeometry().getCoordinates());
+                        map.addOverlay(overlay);
+                        
 
 
+                    });
 
-            var stylesAparcamientos = {
-                'Point': [new ol.style.Style({
-                        image: new ol.style.Circle({
-                            fill: new ol.style.Fill({color: [0, 255, 0, 1]}),
-                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                            radius: 5
-                        })
-                    })]
-            };
-            var urlAparcamientos = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/aparcamientos_bici';
-
-            var capaAparcamientos = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    url: urlAparcamientos,
-                    format: new ol.format.GeoJSON(),
-                    projection: 'EPSG:4326'
-                }),
-                style: function (feature, resolution) {
-                    return stylesAparcamientos[feature.getGeometry().getType()];
-                }
-
-            });
+                });
+                var overlay = new ol.Overlay({
+                    element: container
+                });
 
 
-
-
-            var stylesMusculacion = {
-                'Point': [new ol.style.Style({
-                        image: new ol.style.Circle({
-                            fill: new ol.style.Fill({color: [0, 0, 255, 1]}),
-                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                            radius: 5
-                        })
-                    })]
-            };
-            var urlMusculacion = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/musculacion';
-
-            var capaMusculacion = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    url: urlMusculacion,
-                    format: new ol.format.GeoJSON(),
-                    projection: 'EPSG:4326'
-                }),
-                style: function (feature, resolution) {
-                    return stylesMusculacion[feature.getGeometry().getType()];
-                }
-
-            });
-
-
-            var checkboxFuentes = document.getElementById("fuentes");
-
-            checkboxFuentes.addEventListener('change', function () {
-                if (this.checked) {
-                    // Checkbox is checked..
-                    map.addLayer(capaFuentes);
-                } else {
-                    // Checkbox is not checked..
-                    map.removeLayer(capaFuentes);
-                }
-            });
-
-            var checkboxAparcamientos = document.getElementById("aparcamientos");
-
-            checkboxAparcamientos.addEventListener('change', function () {
-                if (this.checked) {
-                    // Checkbox is checked..
-                    map.addLayer(capaAparcamientos);
-                } else {
-                    // Checkbox is not checked..
-                    map.removeLayer(capaAparcamientos);
-                }
-            });
-
-            var checkboxMusculacion = document.getElementById("musculacion");
-
-            checkboxMusculacion.addEventListener('change', function () {
-                if (this.checked) {
-                    // Checkbox is checked..
-                    map.addLayer(capaMusculacion);
-                } else {
-                    // Checkbox is not checked..
-                    map.removeLayer(capaMusculacion);
-                }
-            });
-        </script>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+            </script>
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     </body>
 </html>
