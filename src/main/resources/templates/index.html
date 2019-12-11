@@ -48,6 +48,16 @@ and open the template in the editor.
                 }),
             });
 
+
+            var styles = {
+                'Point': [new ol.style.Style({
+                        image: new ol.style.Circle({
+                            fill: new ol.style.Fill({color: [255, 0, 0, 1]}),
+                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                            radius: 5
+                        })
+                    })]
+            };
             var urlFuentes = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuentes';
 
             var capaFuentes = new ol.layer.Vector({
@@ -55,10 +65,13 @@ and open the template in the editor.
                     url: urlFuentes,
                     format: new ol.format.GeoJSON(),
                     projection: 'EPSG:4326'
-                })
-                
+                }),
+                style: function (feature, resolution) {
+                    return styles[feature.getGeometry().getType()];
+                }
+
             });
-            
+
             map.addLayer(capaFuentes);
         </script>
     </body>
