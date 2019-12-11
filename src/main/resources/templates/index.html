@@ -34,6 +34,8 @@ and open the template in the editor.
             <h6 th:text="${id_token}"/>
         </div>
         <div id="map" class="map"></div>
+        <input id="aparcamientos" type="button" value="Aparcamientos"/> 
+        <input id="fuentes" type="button" value="Fuentes"/> 
         <script type="text/javascript">
             var map = new ol.Map({
                 target: 'map',
@@ -49,7 +51,7 @@ and open the template in the editor.
             });
 
 
-            var styles = {
+            var stylesFuentes = {
                 'Point': [new ol.style.Style({
                         image: new ol.style.Circle({
                             fill: new ol.style.Fill({color: [255, 0, 0, 1]}),
@@ -67,12 +69,45 @@ and open the template in the editor.
                     projection: 'EPSG:4326'
                 }),
                 style: function (feature, resolution) {
-                    return styles[feature.getGeometry().getType()];
+                    return stylesFuentes[feature.getGeometry().getType()];
                 }
 
             });
 
             map.addLayer(capaFuentes);
+            
+            
+            var stylesAparcamientos = {
+                'Point': [new ol.style.Style({
+                        image: new ol.style.Circle({
+                            fill: new ol.style.Fill({color: [0, 255, 0, 1]}),
+                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                            radius: 5
+                        })
+                    })]
+            };
+            var urlAparcamientos = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/aparcamientos_bici';
+
+            var capaAparcamientos = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: urlAparcamientos,
+                    format: new ol.format.GeoJSON(),
+                    projection: 'EPSG:4326'
+                }),
+                style: function (feature, resolution) {
+                    return stylesAparcamientos[feature.getGeometry().getType()];
+                }
+
+            });
+            
+            
+            
+            
+            
+            document.getElementById("aparcamientos").onclick = function(){map.removeLayer(capaFuentes); map.addLayer(capaAparcamientos);};                    
+            document.getElementById("fuentes").onclick = function(){map.removeLayer(capaAparcamientos); map.addLayer(capaFuentes);};
+
         </script>
+        
     </body>
 </html>
