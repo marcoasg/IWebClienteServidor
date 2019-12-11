@@ -5,23 +5,22 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html xmlns:th=http://www.thymeleaf.org>
-    <style>
-        .map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
 
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
         <style>
-            .map {
-                height: 400px;
+            html, body, .container-fluid, .row, .map {
+                height: 100%;
                 width: 100%;
+            }
+            .col-sm-10 {
+                height: 100%;
             }
         </style>
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
@@ -29,13 +28,24 @@ and open the template in the editor.
 
 
     <body>
-        <div>
-            <h1>Hola, </h1>
-            <h6 th:text="${id_token}"/>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <ul class="list-group">
+                        <li class="list-group-item"> <input id="fuentes" type="checkbox" name="fuentes" /> Fuentes </li>
+                        <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
+                        <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
+                    </ul>
+                </div>
+                <div class="col-sm-10">
+                    <div id="map" class="map"></div> 
+                </div>
+            </div>
+
+
         </div>
-        <div id="map" class="map"></div>
-        <input id="aparcamientos" type="button" value="Aparcamientos"/> 
-        <input id="fuentes" type="button" value="Fuentes"/> 
+
+
         <script type="text/javascript">
             var map = new ol.Map({
                 target: 'map',
@@ -50,7 +60,7 @@ and open the template in the editor.
                 }),
             });
 
-
+            
             var stylesFuentes = {
                 'Point': [new ol.style.Style({
                         image: new ol.style.Circle({
@@ -74,9 +84,8 @@ and open the template in the editor.
 
             });
 
-            map.addLayer(capaFuentes);
-            
-            
+
+
             var stylesAparcamientos = {
                 'Point': [new ol.style.Style({
                         image: new ol.style.Circle({
@@ -99,15 +108,38 @@ and open the template in the editor.
                 }
 
             });
-            
-            
-            
-            
-            
-            document.getElementById("aparcamientos").onclick = function(){map.removeLayer(capaFuentes); map.addLayer(capaAparcamientos);};                    
-            document.getElementById("fuentes").onclick = function(){map.removeLayer(capaAparcamientos); map.addLayer(capaFuentes);};
+
+
+
+            var checkboxFuentes = document.getElementById("fuentes");
+
+            checkboxFuentes.addEventListener('change', function () {
+                if (this.checked) {
+                    // Checkbox is checked..
+                    map.addLayer(capaFuentes);
+                } else {
+                    // Checkbox is not checked..
+                    map.removeLayer(capaFuentes);
+                }
+            });
+
+            var checkboxAparcamientos = document.getElementById("aparcamientos");
+
+            checkboxAparcamientos.addEventListener('change', function () {
+                if (this.checked) {
+                    // Checkbox is checked..
+                    map.addLayer(capaAparcamientos);
+                } else {
+                    // Checkbox is not checked..
+                    map.removeLayer(capaAparcamientos);
+                }
+            });
+
 
         </script>
-        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
     </body>
 </html>
