@@ -16,14 +16,21 @@ and open the template in the editor.
 
         <meta name="google-signin-client_id" content="1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com">
         <script>
+            var clicked = false;//Global Variable
+            function ClickLogin()
+            {
+                clicked = true;
+            }
             function onSignIn(googleUser) {
-                var id_token = googleUser.getAuthResponse().id_token;
-                console.log('ID token: ' + id_token);
+                if (clicked) {
+                    var id_token = googleUser.getAuthResponse().id_token;
+                    console.log('ID token: ' + id_token);
 
-                //Envio al backend
-                var input = document.getElementById('id_token');
-                input.value = id_token;
-                form.submit();
+                    //Envio al backend
+                    var input = document.getElementById('id_token');
+                    input.value = id_token;
+                    form.submit();
+                }
             }
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
@@ -34,15 +41,17 @@ and open the template in the editor.
         </script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
-    <body>
+    <body style="background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/10/Bicycle-Background-Full-HD.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: 100% 100%">
         <div class="container-sm">
-            <div class="row"><div class="col"></div></div>
-            <div class="row"><div class="col"></div></div>
+            <div class="row"><div class="col"><br><br><br><br><br></div></div>
             <div class="row">
                 <div class="col">
                 </div>
                 <div class="col">
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <div class="g-signin2" data-onsuccess="onSignIn" onclick="ClickLogin()"></div>
                     <!-- <a href="#" onclick="signOut();">Sign out</a> -->
                     <form id="form" th:action="@{/}" th:method="post">
                         <input id="id_token" type="hidden" th:name="id_token"/>
