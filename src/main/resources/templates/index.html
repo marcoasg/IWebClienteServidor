@@ -60,7 +60,7 @@ and open the template in the editor.
                 }),
             });
 
-            
+
             var stylesFuentes = {
                 'Point': [new ol.style.Style({
                         image: new ol.style.Circle({
@@ -111,6 +111,31 @@ and open the template in the editor.
 
 
 
+
+            var stylesMusculacion = {
+                'Point': [new ol.style.Style({
+                        image: new ol.style.Circle({
+                            fill: new ol.style.Fill({color: [0, 0, 255, 1]}),
+                            stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                            radius: 5
+                        })
+                    })]
+            };
+            var urlMusculacion = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/musculacion';
+
+            var capaMusculacion = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: urlMusculacion,
+                    format: new ol.format.GeoJSON(),
+                    projection: 'EPSG:4326'
+                }),
+                style: function (feature, resolution) {
+                    return stylesMusculacion[feature.getGeometry().getType()];
+                }
+
+            });
+
+
             var checkboxFuentes = document.getElementById("fuentes");
 
             checkboxFuentes.addEventListener('change', function () {
@@ -135,7 +160,17 @@ and open the template in the editor.
                 }
             });
 
+            var checkboxMusculacion = document.getElementById("musculacion");
 
+            checkboxMusculacion.addEventListener('change', function () {
+                if (this.checked) {
+                    // Checkbox is checked..
+                    map.addLayer(capaMusculacion);
+                } else {
+                    // Checkbox is not checked..
+                    map.removeLayer(capaMusculacion);
+                }
+            });
         </script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
