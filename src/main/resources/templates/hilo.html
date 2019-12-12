@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title th:text="'Foro Malaga Bicis - ' + ${hilo}"></title>
+        <title th:text="'Foro Malaga Bicis - ' + ${tituloHilo}"></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -27,9 +27,44 @@ and open the template in the editor.
         </div>
 
         <div>
-            <h3 style="margin-left: 1%">Mensajes del hilo: <span th:text="${hilo}" th:remove="tag"></span></h3>
+            <h3 style="margin-left: 1%">Mensajes del hilo: <span th:text="${tituloHilo}" th:remove="tag"></span></h3>
             <ul id="lista" class="list-group"></ul>
         </div>
+
+        <script>
+            var hilo = "[[${hilo}]]";
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/from_hilo/" + hilo, false); // false for synchronous request
+            xmlHttp.setRequestHeader("Accept", "application/json");
+            xmlHttp.send(null);
+
+            var mensajesText = xmlHttp.response;
+            var mensajes = JSON.parse(mensajesText);
+            var lista = document.getElementById("lista");
+
+            mensajes.forEach(function (mensaje) {
+                //Creacion de link al controlador
+                var elemento = document.createElement("p");
+                elemento.innerHTML = mensaje.texto;
+                elemento.style = "border-bottom: 1px"
+
+                //Usuario y fecha de creacion
+                var usuarioYFecha = document.createElement("p");
+                var negrita = document.createElement("b");
+                negrita.innerHTML = "Enviado por: " + mensaje.usuario.token + " el " + mensaje.fecha.substring(0, 10);
+                usuarioYFecha.appendChild(negrita);
+
+                //Creacion de elemento de la lista
+                var li = document.createElement("li");
+                li.className = "list-group-item";
+                li.appendChild(elemento);
+                li.appendChild(usuarioYFecha);
+                lista.appendChild(li);
+            });
+
+        </script>
+
 
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

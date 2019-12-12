@@ -49,15 +49,20 @@ and open the template in the editor.
                 elemento.innerHTML = hilo.titulo;
                 elemento.href = "javascript:{}";
 
-                //Se pasa como parametro el titulo del hilo (id)
+                //Se pasa como parametro el id del hilo 
+                var id = document.createElement("input");
+                id.type = "hidden";
+                id.value = hilo.id;
+                id.setAttribute('name', "hilo");
+
                 var titulo = document.createElement("input");
                 titulo.type = "hidden";
                 titulo.value = hilo.titulo;
-                titulo.setAttribute('name', "hilo");
-                
+                titulo.setAttribute('name', "tituloHilo");
+
                 //Usuario y fecha de creacion
                 var usuarioYFecha = document.createElement("p");
-                usuarioYFecha.innerHTML = "Creado por: " + hilo.usuario.token + " el " + hilo.fecha.substring(0,10);
+                usuarioYFecha.innerHTML = "Creado por: " + hilo.usuario.token + " el " + hilo.fecha.substring(0, 10);
 
                 //Creacion formulario
                 var f = document.createElement("form");
@@ -69,6 +74,7 @@ and open the template in the editor.
                 f.appendChild(elemento);
                 f.appendChild(document.createElement("br"));
                 f.appendChild(usuarioYFecha);
+                f.appendChild(id);
                 f.appendChild(titulo);
 
                 //Creacion de elemento de la lista
@@ -76,7 +82,6 @@ and open the template in the editor.
                 li.className = "list-group-item";
                 li.appendChild(f);
                 lista.appendChild(li);
-                document.body.appendChild(lista);
             });
         </script>
 
