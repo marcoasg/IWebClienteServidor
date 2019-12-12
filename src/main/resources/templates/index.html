@@ -207,12 +207,28 @@ and open the template in the editor.
                 seleccion.on('select', function (e) {
                     var seleccionados = e.target.getFeatures();
                     seleccionados.forEach(function (t) {
-                        if (t.get('nombre')) {
-                            content.innerHTML = t.get('nombre');
+                        if (t.get('direccion')) {
+                            content.innerHTML = t.get('direccion');
+
+                            content.innerHTML += ', Estado: ';
+                            content.innerHTML += t.get('nombre_estado');
+                            content.innerHTML += ', plazas libres: ';
+                            var urlPlazas = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/plazas_libres/';
+                            urlPlazas += t.get('id_externo');
+                            var xmlHttp = new XMLHttpRequest();
+                            xmlHttp.open("GET", urlPlazas, false); // false for synchronous request
+                            xmlHttp.send(null);
+                            result = xmlHttp.responseText;
+                            content.innerHTML += result;
+
+                            overlay.setPosition(t.getGeometry().getCoordinates());
+                            map.addOverlay(overlay);
+                        } else if (t.get('DIRECCION')) {
+                            content.innerHTML = t.get('DIRECCION');
                             overlay.setPosition(t.getGeometry().getCoordinates());
                             map.addOverlay(overlay);
                         } else {
-                            content.innerHTML = t.get('NOMBRE');
+                            content.innerHTML = t.get('nombre');
                             overlay.setPosition(t.getGeometry().getCoordinates());
                             map.addOverlay(overlay);
                         }
