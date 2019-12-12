@@ -78,6 +78,7 @@ and open the template in the editor.
                         <li class="list-group-item"> <input id="fuentes" type="checkbox" name="fuentes" /> Fuentes </li>
                         <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
                         <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
+                        <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
                     </ul>
                 </div>
                 <div class="col-sm-10">
@@ -172,6 +173,33 @@ and open the template in the editor.
                     }
 
                 });
+                var stylesCarriles = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                radius: 7,
+                                fill: new ol.style.Fill({
+                                    color: 'black'
+                                })
+                            })
+                        })],
+                    'LineString': [new ol.style.Style({
+                            stroke: new ol.style.Stroke({
+                                color: 'green',
+                                width: 4
+                            })
+                        })]
+                };
+                var urlCarriles = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/carriles_bici';
+                var capaCarriles = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: urlCarriles,
+                        format: new ol.format.GeoJSON()
+                    }),
+                    style: function (feature, resolution) {
+                        return stylesCarriles[feature.getGeometry().getType()];
+                    }
+
+                });
                 var checkboxFuentes = document.getElementById("fuentes");
                 checkboxFuentes.addEventListener('change', function () {
                     if (this.checked) {
@@ -202,17 +230,47 @@ and open the template in the editor.
                         map.removeLayer(capaMusculacion);
                     }
                 });
+                var checkboxCarriles = document.getElementById("carriles_bici");
+                checkboxCarriles.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaCarriles);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaCarriles);
+                    }
+                });
                 var seleccion = new ol.interaction.Select();
                 map.addInteraction(seleccion);
                 seleccion.on('select', function (e) {
                     var seleccionados = e.target.getFeatures();
                     seleccionados.forEach(function (t) {
-                        if (t.get('nombre')) {
-                            content.innerHTML = t.get('nombre');
+                        if (t.get('direccion')) {
+                            content.innerHTML = t.get('direccion');
+
+                            content.innerHTML += ', Estado: ';
+                            content.innerHTML += t.get('nombre_estado');
+                            content.innerHTML += ', plazas libres: ';
+                            var urlPlazas = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/plazas_libres/';
+                            urlPlazas += t.get('id_externo');
+                            var xmlHttp = new XMLHttpRequest();
+                            xmlHttp.open("GET", urlPlazas, false); // false for synchronous request
+                            xmlHttp.send(null);
+                            result = xmlHttp.responseText;
+                            content.innerHTML += result;
+
                             overlay.setPosition(t.getGeometry().getCoordinates());
                             map.addOverlay(overlay);
+                        } else if (t.get('DIRECCION')) {
+                            content.innerHTML = t.get('DIRECCION');
+                            overlay.setPosition(t.getGeometry().getCoordinates());
+                            map.addOverlay(overlay);
+                        } else if (t.get('name')) {
+                            content.innerHTML = t.get('name');
+                            overlay.setPosition(t.getGeometry().getFirstCoordinate());
+                            map.addOverlay(overlay);
                         } else {
-                            content.innerHTML = t.get('NOMBRE');
+                            content.innerHTML = t.get('nombre');
                             overlay.setPosition(t.getGeometry().getCoordinates());
                             map.addOverlay(overlay);
                         }
