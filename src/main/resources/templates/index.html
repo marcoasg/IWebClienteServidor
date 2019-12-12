@@ -175,19 +175,19 @@ and open the template in the editor.
                 });
                 var stylesCarriles = {
                     'Point': [new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 7,
-                        fill: new ol.style.Fill({
-                            color: 'black'
-                        })
-                    })
-                })],
+                            image: new ol.style.Circle({
+                                radius: 7,
+                                fill: new ol.style.Fill({
+                                    color: 'black'
+                                })
+                            })
+                        })],
                     'LineString': [new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: 'green',
-                        width: 4
-                    })
-                })]
+                            stroke: new ol.style.Stroke({
+                                color: 'green',
+                                width: 4
+                            })
+                        })]
                 };
                 var urlCarriles = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/carriles_bici';
                 var capaCarriles = new ol.layer.Vector({
@@ -265,6 +265,10 @@ and open the template in the editor.
                             content.innerHTML = t.get('DIRECCION');
                             overlay.setPosition(t.getGeometry().getCoordinates());
                             map.addOverlay(overlay);
+                        } else if (t.get('name')) {
+                            content.innerHTML = t.get('name');
+                            overlay.setPosition(t.getGeometry().getCoordinates());
+                            map.addOverlay(overlay);
                         } else {
                             content.innerHTML = t.get('nombre');
                             overlay.setPosition(t.getGeometry().getCoordinates());
@@ -287,7 +291,7 @@ and open the template in the editor.
                     return false;
                 };
 
-                
+
             </script>
             <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
