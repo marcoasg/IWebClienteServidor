@@ -78,6 +78,7 @@ and open the template in the editor.
                         <li class="list-group-item"> <input id="fuentes" type="checkbox" name="fuentes" /> Fuentes </li>
                         <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
                         <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
+                        <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
                     </ul>
                 </div>
                 <div class="col-sm-10">
@@ -172,6 +173,33 @@ and open the template in the editor.
                     }
 
                 });
+                var stylesCarriles = {
+                    'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: 'black'
+                        })
+                    })
+                })],
+                    'LineString': [new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'green',
+                        width: 4
+                    })
+                })]
+                };
+                var urlCarriles = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/carriles_bici';
+                var capaCarriles = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: urlCarriles,
+                        format: new ol.format.GeoJSON()
+                    }),
+                    style: function (feature, resolution) {
+                        return stylesCarriles[feature.getGeometry().getType()];
+                    }
+
+                });
                 var checkboxFuentes = document.getElementById("fuentes");
                 checkboxFuentes.addEventListener('change', function () {
                     if (this.checked) {
@@ -200,6 +228,16 @@ and open the template in the editor.
                     } else {
                         // Checkbox is not checked..
                         map.removeLayer(capaMusculacion);
+                    }
+                });
+                var checkboxCarriles = document.getElementById("carriles_bici");
+                checkboxCarriles.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaCarriles);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaCarriles);
                     }
                 });
                 var seleccion = new ol.interaction.Select();
@@ -249,7 +287,7 @@ and open the template in the editor.
                     return false;
                 };
 
-
+                
             </script>
             <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
