@@ -267,7 +267,7 @@ and open the template in the editor.
                             map.addOverlay(overlay);
                         } else if (t.get('name')) {
                             content.innerHTML = t.get('name');
-                            overlay.setPosition(t.getGeometry().getCoordinates());
+                            overlay.setPosition(t.getGeometry().getFirstCoordinate());
                             map.addOverlay(overlay);
                         } else {
                             content.innerHTML = t.get('nombre');
