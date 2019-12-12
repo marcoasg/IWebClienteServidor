@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html xmlns:th=http://www.thymeleaf.org>
     <head>
-        <title>TODO supply a title</title>
+        <title>Malaga Bicis</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -90,6 +90,7 @@ and open the template in the editor.
                         <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
                         <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
                         <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
+                        <li class="list-group-item"> <input id="posicion" type="checkbox" name="posicion"  /> posici&oacute;n </li>
                     </ul>
                 </div>
                 <div class="col-sm-10">
@@ -211,6 +212,36 @@ and open the template in the editor.
                     }
 
                 });
+                var stylesPosicion = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                fill: new ol.style.Fill({color: [0, 255, 255, 1]}),
+                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                                radius: 5
+                            })
+                        })]
+                };
+                var iconFeature = new ol.Feature({
+                    geometry: new ol.geom.Point([])
+                });
+
+                var source = new ol.source.Vector({
+                     features: [iconFeature]
+                });
+                var geolocation = new ol.Geolocation({
+                tracking: true,
+                projection: map.getView().getProjection()
+                });
+                geolocation.on('change', function() {
+                    var coord = geolocation.getPosition();
+                    iconFeature.getGeometry().setCoordinates(coord);
+                });
+                var capaPosicion = new ol.layer.Vector({
+                    source: source,
+                    style: function (feature, resolution) {
+                        return stylesPosicion[feature.getGeometry().getType()];
+                    } 
+                });
                 var checkboxFuentes = document.getElementById("fuentes");
                 checkboxFuentes.addEventListener('change', function () {
                     if (this.checked) {
@@ -250,6 +281,21 @@ and open the template in the editor.
                         // Checkbox is not checked..
                         map.removeLayer(capaCarriles);
                     }
+                });
+                var checkboxPosicion = document.getElementById("posicion");
+                checkboxPosicion.addEventListener('change', function () {
+                    if (this.checked) {
+                        // Checkbox is checked..
+                        map.addLayer(capaPosicion);
+                    } else {
+                        // Checkbox is not checked..
+                        map.removeLayer(capaPosicion);
+                    }
+                });
+                map.on("click", function(e) {
+                        var coord = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
+                        var lon = coord[0];
+                        var lat = coord[1];
                 });
                 var seleccion = new ol.interaction.Select();
                 map.addInteraction(seleccion);
