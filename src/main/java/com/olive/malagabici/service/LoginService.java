@@ -42,6 +42,7 @@ public class LoginService {
     }
     
     public GoogleIdToken verifyToken(String idToken) throws GeneralSecurityException, IOException {
+        if (idToken == null) return null;
         GoogleIdTokenVerifier verifier = getGoogleVerifier();
         GoogleIdToken idTokenObj = verifier.verify(idToken);
         return idTokenObj;

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Foro de Malaga Bicis</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Mapa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/foro">Foro</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div>
+            <h3 style="margin-left: 1%">Temas</h3>
+            <ul id="lista" class="list-group"></ul>
+        </div>
+
+        <script>
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.tema", false); // false for synchronous request
+            xmlHttp.setRequestHeader("Accept", "application/json");
+            xmlHttp.send(null);
+            var temasText = xmlHttp.response;
+            var temas = JSON.parse(temasText);
+            console.log(temas);
+            var lista = document.getElementById("lista");
+
+            temas.forEach(function (tema) {
+                //Creacion de link al controlador
+                var elemento = document.createElement("a");
+                elemento.innerHTML = tema.titulo;
+                elemento.href = "javascript:{}"
+
+                //Descripcion del tema
+                var descripcion = document.createTextNode(tema.descripcion);
+
+                //Se pasa como parametro el titulo del tema (id)
+                var titulo = document.createElement("input");
+                titulo.type = "hidden";
+                titulo.value = tema.titulo;
+                titulo.name = "tema";
+
+                //Creacion formulario
+                var f = document.createElement("form");
+                f.setAttribute('method', "get");
+                f.setAttribute('action', "/hilos");
+                elemento.onclick = "f.submit()";
+                f.appendChild(elemento);
+                f.appendChild(document.createElement("br"));
+                f.appendChild(descripcion);
+                f.appendChild(titulo);
+
+                //Creacion de elemento de la lista
+                var li = document.createElement("li");
+                li.className = "list-group-item";
+                li.appendChild(f);
+                lista.appendChild(li);
+
+                console.log(elemento);
+            });
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>
