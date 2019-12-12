@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Foro de Malaga Bicis</title>
+        <title th:text="'Foro Malaga Bicis - ' + ${tema}"></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -27,42 +27,48 @@ and open the template in the editor.
         </div>
 
         <div>
-            <h3 style="margin-left: 1%">Temas</h3>
+            <h3 style="margin-left: 1%">Hilos del tema: <span th:text="${tema}" th:remove="tag"></span></h3>
             <ul id="lista" class="list-group"></ul>
         </div>
 
         <script>
+            var tema = "[[${tema}]]";
+
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.tema", false); // false for synchronous request
+            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.hilo/tema/" + tema, false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");
             xmlHttp.send(null);
-            var temasText = xmlHttp.response;
-            var temas = JSON.parse(temasText);
+
+            var hilosText = xmlHttp.response;
+            var hilos = JSON.parse(hilosText);
             var lista = document.getElementById("lista");
 
-            temas.forEach(function (tema) {
+            hilos.forEach(function (hilo) {
                 //Creacion de link al controlador
                 var elemento = document.createElement("a");
-                elemento.innerHTML = tema.titulo;
+                elemento.innerHTML = hilo.titulo;
                 elemento.href = "javascript:{}";
 
-                //Descripcion del tema
-                var descripcion = document.createTextNode(tema.descripcion);
-
-                //Se pasa como parametro el titulo del tema (id)
+                //Se pasa como parametro el titulo del hilo (id)
                 var titulo = document.createElement("input");
                 titulo.type = "hidden";
-                titulo.value = tema.titulo;
-                titulo.setAttribute('name', "tema");
+                titulo.value = hilo.titulo;
+                titulo.setAttribute('name', "hilo");
+                
+                //Usuario y fecha de creacion
+                var usuarioYFecha = document.createElement("p");
+                usuarioYFecha.innerHTML = "Creado por: " + hilo.usuario.token + " el " + hilo.fecha.substring(0,10);
 
                 //Creacion formulario
                 var f = document.createElement("form");
                 f.setAttribute('method', "get");
-                f.setAttribute('action', "/tema");
-                elemento.onclick = function(){f.submit();};
+                f.setAttribute('action', "/hilo");
+                elemento.onclick = function () {
+                    f.submit();
+                };
                 f.appendChild(elemento);
                 f.appendChild(document.createElement("br"));
-                f.appendChild(descripcion);
+                f.appendChild(usuarioYFecha);
                 f.appendChild(titulo);
 
                 //Creacion de elemento de la lista

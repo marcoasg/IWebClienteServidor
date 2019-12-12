@@ -12,29 +12,54 @@ import java.security.GeneralSecurityException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
  * @author Trigi
  */
-
 @Controller
 public class ForumController {
-    
+
     @Autowired
     LoginService loginService;
-    
+
     @GetMapping("/foro")
-    public String getForum(HttpServletRequest request) throws GeneralSecurityException, IOException{
-        String idToken = (String)request.getSession().getAttribute("idToken");
+    public String getForum(HttpServletRequest request) throws GeneralSecurityException, IOException {
+        String idToken = (String) request.getSession().getAttribute("idToken");
         GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
-        
+
         if (idTokenObj != null) {
             return "foro";
         } else {
             return "login";
         }
-        
+    }
+
+    @GetMapping("/tema")
+    public String getHilos(HttpServletRequest request, Model model) throws GeneralSecurityException, IOException {
+        String idToken = (String) request.getSession().getAttribute("idToken");
+        GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
+
+        if (idTokenObj != null) {
+            model.addAttribute("tema", (String) request.getParameter("tema"));
+            return "tema";
+        } else {
+            return "login";
+        }
+    }
+
+    @GetMapping("/hilo")
+    public String getMensajes(HttpServletRequest request, Model model) throws GeneralSecurityException, IOException {
+        String idToken = (String) request.getSession().getAttribute("idToken");
+        GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
+
+        if (idTokenObj != null) {
+            model.addAttribute("hilo", (String) request.getParameter("hilo"));
+            return "hilo";
+        } else {
+            return "login";
+        }
     }
 }
