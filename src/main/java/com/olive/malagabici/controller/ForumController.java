@@ -61,6 +61,8 @@ public class ForumController {
         if (idTokenObj != null) {
             model.addAttribute("hilo", (String) request.getParameter("hilo"));
             model.addAttribute("tituloHilo", (String) request.getParameter("tituloHilo"));
+            model.addAttribute("usuario", (String) request.getSession().getAttribute("email"));
+            model.addAttribute("token", (String) request.getSession().getAttribute("idToken"));
             return "hilo";
         } else {
             return "login";

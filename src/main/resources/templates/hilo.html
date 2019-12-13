@@ -28,10 +28,34 @@ and open the template in the editor.
 
         <div>
             <h3 style="margin-left: 1%">Hilo - <span th:text="${tituloHilo}" th:remove="tag"></span></h3>
+            <b style="margin-left: 1%">Escribe en el hilo: </b><input type='text' id='inputMensaje'/>
+            &nbsp&nbsp<button type="button" class="btn btn-primary" onclick="publicarMensaje()">Enviar</button>
             <ul id="lista" class="list-group"></ul>
         </div>
 
         <script>
+            function publicarMensaje() {
+                var texto = document.getElementById("inputMensaje");
+                var mensaje = new Object();
+                mensaje.texto = texto.value;
+                mensaje.id = 0;
+                mensaje.fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+                mensaje.hilo = "[[${hilo}]]";
+                var usuario = new Object();
+                usuario.email = "[[${usuario}]]";
+                usuario.token = "[[${token}]]";
+                mensaje.usuario = usuario;
+
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/hilo/"+"[[${hilo}]]", false); // false for synchronous request
+                xmlHttp.setRequestHeader("Content-Type", "application/json");
+                xmlHttp.send(JSON.stringify(mensaje));
+                location.reload(true);
+            }
+
+
+
             var hilo = "[[${hilo}]]";
 
             var xmlHttp = new XMLHttpRequest();
