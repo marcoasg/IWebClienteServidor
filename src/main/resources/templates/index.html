@@ -86,12 +86,13 @@ and open the template in the editor.
             <div class="row">
                 <div class="col-sm-2">
                     <ul class="list-group">
+                        <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
                         <li class="list-group-item"> <input id="fuentes" type="checkbox" name="fuentes" /> Fuentes </li>
                         <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
                         <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
-                        <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
-                        <li class="list-group-item"> <input id="posicion" type="checkbox" name="posicion"  /> Posici&oacute;n </li>
-                        <li class="list-group-item"> <input id="fuente_cercana" type="button" name="fuente_cercana"  /> Fuente m&aacute;s cercana </li>
+                        <li class="list-group-item"> <input id="fuente_cercana" type="checkbox" name="fuente_cercana"  /> Fuente m&aacute;s cercana </li>
+                        <li class="list-group-item"> <input id="bici_cercana" type="checkbox" name="bici_cercana"  /> Bicis m&aacute;s cercanas </li>
+                        <li class="list-group-item"> <input id="musculacion_cercana" type="checkbox" name="musculacion_cercana"  /> Musculaci&oacute;n m&aacute;s cercana </li>
                     </ul>
                 </div>
                 <div class="col-sm-10">
@@ -228,14 +229,19 @@ and open the template in the editor.
                 });
 
                 var source = new ol.source.Vector({
-                    features: [iconFeature]
+                    features: [iconFeature],
+                    projection: 'EPSG:4326'
                 });
-                var geolocation = new ol.Geolocation({
+                var geoloc = new ol.Geolocation({
                     tracking: true,
                     projection: map.getView().getProjection()
                 });
-                geolocation.on('change', function () {
-                    var coord = geolocation.getPosition();
+                var geolocation = new ol.Geolocation({
+                    tracking: true,
+                    projection: 'EPSG4326'
+                });
+                geoloc.on('change', function () {
+                    var coord = geoloc.getPosition();
                     iconFeature.getGeometry().setCoordinates(coord);
                 });
                 var capaPosicion = new ol.layer.Vector({
@@ -284,35 +290,85 @@ and open the template in the editor.
                         map.removeLayer(capaCarriles);
                     }
                 });
-                var checkboxPosicion = document.getElementById("posicion");
-                checkboxPosicion.addEventListener('change', function () {
+                map.addLayer(capaPosicion);
+                var stylesCercana = {
+                    'Point': [new ol.style.Style({
+                            image: new ol.style.Circle({
+                                fill: new ol.style.Fill({color: [255, 0, 255, 1]}),
+                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                                radius: 5
+                            })
+                        })]
+                };
+                var checkBoxFuenteCercana = document.getElementById("fuente_cercana");
+                var capaFuenteCercana;
+                checkBoxFuenteCercana.addEventListener('change', function () {
                     if (this.checked) {
-                        // Checkbox is checked..
-                        map.addLayer(capaPosicion);
+                        var urlFuenteCercana = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuente_cercana/';
+                        urlFuenteCercana += geolocation.getPosition();
+                        urlFuenteCercana = urlFuenteCercana.replace(',', '/');
+                        capaFuenteCercana = new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                url: urlFuenteCercana,
+                                format: new ol.format.GeoJSON(),
+                                projection: 'EPSG:4326'
+                            }),
+                            style: function (feature, resolution) {
+                                return stylesCercana[feature.getGeometry().getType()];
+                            }
+
+                        });
+                        map.addLayer(capaFuenteCercana);
                     } else {
-                        // Checkbox is not checked..
-                        map.removeLayer(capaPosicion);
+                        map.removeLayer(capaFuenteCercana);
                     }
                 });
-                var botonFuenteCercana = document.getElementById("fuente_cercana");
-                botonFuenteCercana.onclick = function () {
-                    var urlFuenteCercana = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuente_cercana/';
-                    urlFuenteCercana += geolocation.getPosition();
-                    urlFuenteCercana = urlFuenteCercana.replace(',', '/');
-                    console.log(urlFuenteCercana);
-                    var capaFuenteCercana = new ol.layer.Vector({
-                        source: new ol.source.Vector({
-                            url: urlFuenteCercana,
-                            format: new ol.format.GeoJSON(),
-                            projection: 'EPSG:4326'
-                        }),
-                        style: function (feature, resolution) {
-                            return stylesMusculacion[feature.getGeometry().getType()];
-                        }
+                var checkBoxBiciCercana = document.getElementById("bici_cercana");
+                var capaBiciCercana;
+                checkBoxBiciCercana.addEventListener('change', function () {
+                    if (this.checked) {
+                        var urlBiciCercana = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/bici_cercana/';
+                        urlBiciCercana += geolocation.getPosition();
+                        urlBiciCercana = urlBiciCercana.replace(',', '/');
+                        capaBiciCercana = new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                url: urlBiciCercana,
+                                format: new ol.format.GeoJSON(),
+                                projection: 'EPSG:4326'
+                            }),
+                            style: function (feature, resolution) {
+                                return stylesCercana[feature.getGeometry().getType()];
+                            }
 
-                    });
-                    map.addLayer(capaFuenteCercana);
-                };
+                        });
+                        map.addLayer(capaBiciCercana);
+                    } else {
+                        map.removeLayer(capaBiciCercana);
+                    }
+                });
+                var checkBoxMusculacionCercana = document.getElementById("musculacion_cercana");
+                var capaMusculacionCercana;
+                checkBoxMusculacionCercana.addEventListener('change', function () {
+                    if (this.checked) {
+                        var urlMusculacionCercana = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/musculacion_cercana/';
+                        urlMusculacionCercana += geolocation.getPosition();
+                        urlMusculacionCercana = urlMusculacionCercana.replace(',', '/');
+                        capaMusculacionCercana = new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                url: urlMusculacionCercana,
+                                format: new ol.format.GeoJSON(),
+                                projection: 'EPSG:4326'
+                            }),
+                            style: function (feature, resolution) {
+                                return stylesCercana[feature.getGeometry().getType()];
+                            }
+
+                        });
+                        map.addLayer(capaMusculacionCercana);
+                    } else {
+                        map.removeLayer(capaMusculacionCercana);
+                    }
+                });
                 var seleccion = new ol.interaction.Select();
                 map.addInteraction(seleccion);
                 seleccion.on('select', function (e) {
@@ -348,7 +404,7 @@ and open the template in the editor.
                             map.addOverlay(overlay);
                         } else {
                             content.innerHTML = 'Mi Posici&oacute;n';
-                            overlay.setPosition(geolocation.getPosition());
+                            overlay.setPosition(geoloc.getPosition());
                             map.addOverlay(overlay);
                         }
 
