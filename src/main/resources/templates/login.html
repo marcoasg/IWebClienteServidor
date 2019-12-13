@@ -51,7 +51,10 @@ and open the template in the editor.
                 <div class="col">
                 </div>
                 <div class="col">
-                    <div class="g-signin2" data-onsuccess="onSignIn" onclick="ClickLogin()"></div>
+                    <a class="google btn">
+                        <div class="g-signin2" data-width="500" data-height="50" data-longtitle="true" data-onsuccess="onSignIn" onclick="ClickLogin()"></div>
+                    </a>
+                    
                     <!-- <a href="#" onclick="signOut();">Sign out</a> -->
                     <form id="form" th:action="@{/}" th:method="post">
                         <input id="id_token" type="hidden" th:name="id_token"/>

@@ -90,7 +90,8 @@ and open the template in the editor.
                         <li class="list-group-item"> <input id="aparcamientos" type="checkbox" name="aparcamientos" /> Aparcamientos </li>
                         <li class="list-group-item"> <input id="musculacion" type="checkbox" name="musculacion"  /> Musculaci&oacute;n </li>
                         <li class="list-group-item"> <input id="carriles_bici" type="checkbox" name="carriles_bici"  /> Carriles bici </li>
-                        <li class="list-group-item"> <input id="posicion" type="checkbox" name="posicion"  /> posici&oacute;n </li>
+                        <li class="list-group-item"> <input id="posicion" type="checkbox" name="posicion"  /> Posici&oacute;n </li>
+                        <li class="list-group-item"> <input id="fuente_cercana" type="button" name="fuente_cercana"  /> Fuente m&aacute;s cercana </li>
                     </ul>
                 </div>
                 <div class="col-sm-10">
@@ -120,7 +121,7 @@ and open the template in the editor.
                     view: new ol.View({
                         center: ol.proj.fromLonLat([-4.42, 36.72]),
                         zoom: 18
-                    }),
+                    })
                 });
                 var stylesFuentes = {
                     'Point': [new ol.style.Style({
@@ -185,6 +186,7 @@ and open the template in the editor.
                     }
 
                 });
+
                 var stylesCarriles = {
                     'Point': [new ol.style.Style({
                             image: new ol.style.Circle({
@@ -226,13 +228,13 @@ and open the template in the editor.
                 });
 
                 var source = new ol.source.Vector({
-                     features: [iconFeature]
+                    features: [iconFeature]
                 });
                 var geolocation = new ol.Geolocation({
-                tracking: true,
-                projection: map.getView().getProjection()
+                    tracking: true,
+                    projection: map.getView().getProjection()
                 });
-                geolocation.on('change', function() {
+                geolocation.on('change', function () {
                     var coord = geolocation.getPosition();
                     iconFeature.getGeometry().setCoordinates(coord);
                 });
@@ -240,7 +242,7 @@ and open the template in the editor.
                     source: source,
                     style: function (feature, resolution) {
                         return stylesPosicion[feature.getGeometry().getType()];
-                    } 
+                    }
                 });
                 var checkboxFuentes = document.getElementById("fuentes");
                 checkboxFuentes.addEventListener('change', function () {
@@ -292,11 +294,25 @@ and open the template in the editor.
                         map.removeLayer(capaPosicion);
                     }
                 });
-                map.on("click", function(e) {
-                        var coord = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
-                        var lon = coord[0];
-                        var lat = coord[1];
-                });
+                var botonFuenteCercana = document.getElementById("fuente_cercana");
+                botonFuenteCercana.onclick = function () {
+                    var urlFuenteCercana = 'http://localhost:8081/IngWebServiciosBD/webresources/datos/fuente_cercana/';
+                    urlFuenteCercana += geolocation.getPosition();
+                    urlFuenteCercana = urlFuenteCercana.replace(',', '/');
+                    console.log(urlFuenteCercana);
+                    var capaFuenteCercana = new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            url: urlFuenteCercana,
+                            format: new ol.format.GeoJSON(),
+                            projection: 'EPSG:4326'
+                        }),
+                        style: function (feature, resolution) {
+                            return stylesMusculacion[feature.getGeometry().getType()];
+                        }
+
+                    });
+                    map.addLayer(capaFuenteCercana);
+                };
                 var seleccion = new ol.interaction.Select();
                 map.addInteraction(seleccion);
                 seleccion.on('select', function (e) {
@@ -326,9 +342,13 @@ and open the template in the editor.
                             content.innerHTML = t.get('name');
                             overlay.setPosition(t.getGeometry().getFirstCoordinate());
                             map.addOverlay(overlay);
-                        } else {
+                        } else if (t.get('ogc_fid')) {
                             content.innerHTML = t.get('nombre');
                             overlay.setPosition(t.getGeometry().getCoordinates());
+                            map.addOverlay(overlay);
+                        } else {
+                            content.innerHTML = 'Mi Posici&oacute;n';
+                            overlay.setPosition(geolocation.getPosition());
                             map.addOverlay(overlay);
                         }
 
