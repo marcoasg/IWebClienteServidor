@@ -27,13 +27,39 @@ and open the template in the editor.
         </div>
 
         <div>
-            <h3 style="margin-left: 1%">Hilos del tema: <span th:text="${tema}" th:remove="tag"></span></h3>
+            <h3 style="margin-left: 1%">Tema - <span th:text="${tema}" th:remove="tag"></span></h3>
+            <b style="margin-left: 1%">Introduzca un t&iacute;tulo para abrir un hilo: </b><input type='text' id='inputTituloHilo'/>
+            &nbsp&nbsp<button type="button" class="btn btn-primary" onclick="crearHilo()">Abrir hilo</button>
+
             <ul id="lista" class="list-group"></ul>
         </div>
 
         <script>
-            var tema = "[[${tema}]]";
+            function crearHilo() {
+                var titulo = document.getElementById("inputTituloHilo");
+                var hilo = new Object();
+                hilo.titulo = titulo.value;
+                hilo.id = 0;
+                var tema = new Object();
+                tema.titulo = "[[${tema}]]";
+                tema.descripcion = "[[${descripcion}]]";
+                hilo.tema = tema;
+                var usuario = new Object();
+                usuario.email = "[[${usuario}]]";
+                usuario.token = "[[${token}]]";
+                hilo.usuario = usuario;
+                hilo.fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.hilo/", false); // false for synchronous request
+                xmlHttp.setRequestHeader("Content-Type", "application/json");
+                xmlHttp.send(JSON.stringify(hilo));
+                location.reload(true);
+            }
+            
+            
 
+            var tema = "[[${tema}]]";
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.hilo/tema/" + tema, false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");

@@ -55,15 +55,23 @@ and open the template in the editor.
                 titulo.value = tema.titulo;
                 titulo.setAttribute('name', "tema");
 
+                var desc = document.createElement("input");
+                desc.type = "hidden";
+                desc.value = tema.descripcion;
+                desc.setAttribute('name', "descripcion");
+
                 //Creacion formulario
                 var f = document.createElement("form");
                 f.setAttribute('method', "get");
                 f.setAttribute('action', "/tema");
-                elemento.onclick = function(){f.submit();};
+                elemento.onclick = function () {
+                    f.submit();
+                };
                 f.appendChild(elemento);
                 f.appendChild(document.createElement("br"));
                 f.appendChild(descripcion);
                 f.appendChild(titulo);
+                f.appendChild(desc);
 
                 //Creacion de elemento de la lista
                 var li = document.createElement("li");
