@@ -234,15 +234,23 @@ and open the template in the editor.
                 });
                 var geoloc = new ol.Geolocation({
                     tracking: true,
+                    trackingOptions: {
+                        enableHighAccuracy: true
+                    },
                     projection: map.getView().getProjection()
                 });
                 var geolocation = new ol.Geolocation({
                     tracking: true,
+                    trackingOptions: {
+                        enableHighAccuracy: true
+                    },
                     projection: 'EPSG4326'
                 });
                 geoloc.on('change', function () {
                     var coord = geoloc.getPosition();
                     iconFeature.getGeometry().setCoordinates(coord);
+                    map.removeLayer(capaPosicion);
+                    map.addLayer(capaPosicion);
                 });
                 var capaPosicion = new ol.layer.Vector({
                     source: source,
