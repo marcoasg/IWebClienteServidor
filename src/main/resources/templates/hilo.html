@@ -28,13 +28,27 @@ and open the template in the editor.
 
         <div>
             <h3 style="margin-left: 1%">Hilo - <span th:text="${tituloHilo}" th:remove="tag"></span></h3>
-            <b style="margin-left: 1%">Escribe en el hilo: </b><input type='text' id='inputMensaje'/>
+            <b style="margin-left: 1%">Escribe en el hilo: </b><input type='text' maxlength='500' id='inputMensaje'/>&nbsp;&nbsp;<input id='foto' type="file" class="imgur" accept="image/*" data-max-size="5000"/>
             &nbsp&nbsp<button type="button" class="btn btn-primary" onclick="publicarMensaje()">Enviar</button>
             <ul id="lista" class="list-group"></ul>
         </div>
 
         <script>
+            var api_key = "8d5917c74fc0f90";
+
             function publicarMensaje() {
+                var foto = document.getElementById("foto").files[0];
+                var formData = new FormData();
+                formData.append("image", foto);
+
+                //PUBLICAR IMAGEN
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("POST", "https://api.imgur.com/3/image", false); // false for synchronous request
+                xmlHttp.setRequestHeader("Authorization", "Client-ID " + api_key);
+                xmlHttp.send(formData);
+                var respuesta = JSON.parse(xmlHttp.responseText);
+
+
                 var texto = document.getElementById("inputMensaje");
                 var mensaje = new Object();
                 mensaje.texto = texto.value;
@@ -45,10 +59,12 @@ and open the template in the editor.
                 var usuario = new Object();
                 usuario.email = "[[${usuario}]]";
                 usuario.token = "[[${token}]]";
+                mensaje.imagen = respuesta.data.id;
                 mensaje.usuario = usuario;
 
+                //ENVIAR MENSAJE
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/hilo/"+"[[${hilo}]]", false); // false for synchronous request
+                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/hilo/" + "[[${hilo}]]", false); // false for synchronous request
                 xmlHttp.setRequestHeader("Content-Type", "application/json");
                 xmlHttp.send(JSON.stringify(mensaje));
                 location.reload(true);
@@ -68,10 +84,23 @@ and open the template in the editor.
             var lista = document.getElementById("lista");
 
             mensajes.forEach(function (mensaje) {
-                //Creacion de link al controlador
+                //Creacion de texto
                 var elemento = document.createElement("p");
                 elemento.innerHTML = mensaje.texto;
-                elemento.style = "border-bottom: 1px"
+                elemento.style = "border-bottom: 1px";
+
+
+                var xmlHttp2 = new XMLHttpRequest();
+                xmlHttp2.open("GET", "https://api.imgur.com/3/image/" + mensaje.imagen, false); // false for synchronous request
+                xmlHttp2.setRequestHeader("Authorization", "Client-ID " + api_key);
+                xmlHttp2.setRequestHeader("Accept", "application/json");
+                xmlHttp2.send(null);
+                var imgData = JSON.parse(xmlHttp2.responseText);
+
+                var foto = document.createElement("img");
+                foto.src = imgData.data.link;
+                foto.width = "300";
+                foto.heigth = "300";
 
                 //Usuario y fecha de creacion
                 var usuarioYFecha = document.createElement("p");
@@ -83,6 +112,10 @@ and open the template in the editor.
                 var li = document.createElement("li");
                 li.className = "list-group-item";
                 li.appendChild(elemento);
+                if (imgData.status != 404) {
+                    li.appendChild(foto);
+                }
+                li.appendChild(document.createElement("br"));
                 li.appendChild(usuarioYFecha);
                 lista.appendChild(li);
             });
