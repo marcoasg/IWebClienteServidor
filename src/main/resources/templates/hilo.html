@@ -4,33 +4,64 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="es">
     <head>
         <title th:text="'Foro Malaga Bicis - ' + ${tituloHilo}"></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+        <style>
+            a:link {
+                color: #00bcc9;
+                background-color: transparent;
+                text-decoration: none;
+            }
+
+            a:visited {
+                color: purple;
+                background-color: transparent;
+                text-decoration: none;
+            }
+
+            a:active, a:hover {
+                color: #c7fbff;
+                background-color: transparent;
+                text-decoration: underline;
+            }
+
+            body {
+                font-size: 1.2rem;
+                color: #cfcfcf;
+                background-color: #292b2c;
+            }
+        </style>
     </head>
     <body>
-        <div class="card text-center">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Olive Maps</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Mapa</a>
+                        <a class="nav-link"  href="/">Mapa </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/foro">Foro</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/foro">Foro <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
 
-        <div>
-            <h3 style="margin-left: 1%">Hilo - <span th:text="${tituloHilo}" th:remove="tag"></span></h3>
-            <b style="margin-left: 1%">Escribe en el hilo: </b><input type='text' maxlength='500' id='inputMensaje'/>&nbsp;&nbsp;<input id='foto' type="file" class="imgur" accept="image/*" data-max-size="5000"/>
-            &nbsp&nbsp<button type="button" class="btn btn-primary" onclick="publicarMensaje()">Enviar</button>
-            <ul id="lista" class="list-group"></ul>
+        <div class="bg-secondary">
+            <div style="border-bottom: medium solid #fce9bb">
+                <h3 style="margin-left: 1%">Hilo - <span th:text="${tituloHilo}" th:remove="tag"></span></h3>
+                <b style="margin-left: 1%">Escribe en el hilo: </b> <input type='text' width="600" maxlength='500' id='inputMensaje'/><button style="margin-bottom: 0.5%; margin-left: 1%" type="button" class="btn btn-primary" onclick="publicarMensaje()">Enviar</button><br>
+                <b style="margin-left: 1%">¡Añade una foto a tu mensaje! </b> <input id='foto' style="margin-left: 1%" type="file" class="imgur" accept="image/*" data-max-size="5000"/><br>
+            </div>
+            <ul id="lista" class="list-group bg-secondary"></ul>
         </div>
 
         <script>
@@ -101,22 +132,31 @@ and open the template in the editor.
                 foto.src = imgData.data.link;
                 foto.width = "300";
                 foto.heigth = "300";
+                foto.className = "rounded";
 
                 //Usuario y fecha de creacion
-                var usuarioYFecha = document.createElement("p");
+                var usuario = document.createElement("p");
                 var negrita = document.createElement("b");
-                negrita.innerHTML = "Enviado por: " + mensaje.usuario.token + " el " + mensaje.fecha.substring(0, 10);
-                usuarioYFecha.appendChild(negrita);
+                negrita.innerHTML = "Enviado por: " + mensaje.usuario.token;
+                usuario.appendChild(negrita);
+
+                var fecha = document.createElement("p");
+                var negrita2 = document.createElement("b");
+                negrita2.innerHTML = mensaje.fecha.substring(0, 10);
+                fecha.appendChild(negrita2);
+                fecha.style = "font-size: 1rem";
 
                 //Creacion de elemento de la lista
                 var li = document.createElement("li");
-                li.className = "list-group-item";
+                li.className = "list-group-item bg-secondary";
+                li.style = "border-bottom: thin solid #fce9bb";
+                li.appendChild(usuario);
                 li.appendChild(elemento);
                 if (imgData.status != 404) {
                     li.appendChild(foto);
                 }
                 li.appendChild(document.createElement("br"));
-                li.appendChild(usuarioYFecha);
+                li.appendChild(fecha);
                 lista.appendChild(li);
             });
 
