@@ -4,31 +4,62 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="es">
     <head>
         <title>Foro de Malaga Bicis</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+        <style>
+            a:link {
+                color: #00bcc9;
+                background-color: transparent;
+                text-decoration: none;
+            }
+
+            a:visited {
+                color: purple;
+                background-color: transparent;
+                text-decoration: none;
+            }
+
+            a:active, a:hover {
+                color: #c7fbff;
+                background-color: transparent;
+                text-decoration: underline;
+            }
+
+            body {
+                font-size: 1.2rem;
+                color: #cfcfcf;
+                background-color: #292b2c;
+            }
+        </style>
     </head>
     <body>
-        <div class="card text-center">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Olive Maps</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Mapa</a>
+                        <a class="nav-link"  href="/">Mapa </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/foro">Foro</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/foro">Foro <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
 
-        <div>
-            <h3 style="margin-left: 1%">Temas</h3>
-            <ul id="lista" class="list-group"></ul>
+        <div class="bg-secondary">
+            <div style="border-bottom: medium solid #fce9bb">
+                <h3 style="margin-left: 1%">Temas</h3>
+            </div>
+            <ul id="lista" class="list-group bg-secondary"></ul>
         </div>
 
         <script>
@@ -75,7 +106,8 @@ and open the template in the editor.
 
                 //Creacion de elemento de la lista
                 var li = document.createElement("li");
-                li.className = "list-group-item";
+                li.className = "list-group-item bg-secondary";
+                li.style = "border-bottom: thin solid #fce9bb";
                 li.appendChild(f);
                 lista.appendChild(li);
             });
