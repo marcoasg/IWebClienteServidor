@@ -51,10 +51,19 @@ and open the template in the editor.
                 <div class="col">
                 </div>
                 <div class="col">
-                    <a class="google btn">
-                        <div class="g-signin2" data-width="500" data-height="50" data-longtitle="true" data-onsuccess="onSignIn" onclick="ClickLogin()"></div>
-                    </a>
-                    
+                    <div class="card text-center" style="background-color:rgba(255, 230, 230, 0.7);">
+                        <div class="card-body">
+                            <h5 class="card-title">Inicia sesi&oacute;n con Google!</h5>
+                            <a class="google btn">
+                                <div class="g-signin2" data-width="300" data-height="50" data-longtitle="true" data-onsuccess="onSignIn" onclick="ClickLogin()"></div>
+                            </a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Si tienes una sesi&oacute;n de Google activa en el navegador, entrar&aacute;s autom&aacute;ticamente con esa cuenta.
+                        </div>
+                    </div>
+
+
                     <!-- <a href="#" onclick="signOut();">Sign out</a> -->
                     <form id="form" th:action="@{/}" th:method="post">
                         <input id="id_token" type="hidden" th:name="id_token"/>
