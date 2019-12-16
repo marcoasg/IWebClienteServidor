@@ -6,8 +6,10 @@
 package com.olive.malagabici.repo;
 
 import com.olive.malagbici.model.Mensaje;
+import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  *
@@ -16,5 +18,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IMensajeRepo extends JpaRepository<Mensaje,Integer> {
-    
+    List<Mensaje> findByHilo(Integer id);
+    List<Mensaje> findByIntervaloFechas(Date fechaMinima, Date fechaMaxima);
 }
