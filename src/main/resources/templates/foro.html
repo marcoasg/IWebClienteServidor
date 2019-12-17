@@ -64,7 +64,7 @@ and open the template in the editor.
 
         <script>
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.tema", false); // false for synchronous request
+            xmlHttp.open("GET", "https://malaga-bici.herokuapp.com/entity.tema", false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");
             xmlHttp.send(null);
             var temasText = xmlHttp.response;

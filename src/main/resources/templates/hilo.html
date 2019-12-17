@@ -95,7 +95,7 @@ and open the template in the editor.
 
                 //ENVIAR MENSAJE
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/hilo/" + "[[${hilo}]]", false); // false for synchronous request
+                xmlHttp.open("POST", "https://malaga-bici.herokuapp.com/entity.mensaje/hilo/" + "[[${hilo}]]", false); // false for synchronous request
                 xmlHttp.setRequestHeader("Content-Type", "application/json");
                 xmlHttp.send(JSON.stringify(mensaje));
                 location.reload(true);

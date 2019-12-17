@@ -81,7 +81,7 @@ and open the template in the editor.
                 hilo.fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("POST", "http://localhost:8081/IngWebServiciosBD/webresources/entity.hilo/", false); // false for synchronous request
+                xmlHttp.open("POST", "https://malaga-bici.herokuapp.com/entity.hilo/", false); // false for synchronous request
                 xmlHttp.setRequestHeader("Content-Type", "application/json");
                 xmlHttp.send(JSON.stringify(hilo));
                 location.reload(true);
@@ -91,7 +91,7 @@ and open the template in the editor.
 
             var tema = "[[${tema}]]";
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.hilo/tema/" + tema, false); // false for synchronous request
+            xmlHttp.open("GET", "https://malaga-bici.herokuapp.com/entity.hilo/tema/" + tema, false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");
             xmlHttp.send(null);
 
