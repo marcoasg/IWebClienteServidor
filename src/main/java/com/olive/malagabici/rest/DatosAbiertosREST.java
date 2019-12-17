@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import com.google.gson.*;
 /**
  *
  * @author Trigi
@@ -37,7 +38,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("fuentes")
-    public String fuentesREST() throws MalformedURLException, IOException, JSONException {
+    public String fuentesREST() throws MalformedURLException, IOException {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/ambiente/fuentesaguapotable/da_medioAmbiente_fuentes-4326.geojson");
@@ -45,7 +46,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("musculacion")
-    public String musculacionREST() throws MalformedURLException, IOException, JSONException {
+    public String musculacionREST() throws MalformedURLException, IOException {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/deportes/equipamientos/da_deportesZonasMusculacion-4326.geojson");
@@ -53,7 +54,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("aparcamientos_bici")
-    public String aparcamientosREST() throws MalformedURLException, IOException, JSONException {
+    public String aparcamientosREST() throws MalformedURLException, IOException {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTubicaparcbici/da_aparcamientosBiciEMT-4326.geojson");
@@ -61,7 +62,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("carriles_bici")
-    public String carrilesBici() throws MalformedURLException, IOException, JSONException {
+    public String carrilesBici() throws MalformedURLException, IOException {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/trafico/da_carrilesBici-4326.geojson");
@@ -69,7 +70,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("plazas_libres/{id}")
-    public String aparcamientosLibresREST(@PathVariable("id") Integer id) throws MalformedURLException, IOException, JSONException {
+    public String aparcamientosLibresREST(@PathVariable("id") Integer id) throws MalformedURLException, IOException  {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/api/3/action/datastore_search?resource_id=3bb304f9-9de3-4bac-943e-7acce7e8e8f9");
@@ -77,7 +78,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("fuente_cercana/{x}/{y}")
-    public String fuente_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException, JSONException {
+    public String fuente_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/ambiente/fuentesaguapotable/da_medioAmbiente_fuentes-4326.geojson");
@@ -85,7 +86,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("bici_cercana/{x}/{y}")
-    public String bici_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException, JSONException {
+    public String bici_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTubicaparcbici/da_aparcamientosBiciEMT-4326.geojson");
@@ -93,7 +94,7 @@ public class DatosAbiertosREST {
     }
 
     @GetMapping("musculacion_cercana/{x}/{y}")
-    public String musculacion_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException, JSONException {
+    public String musculacion_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
         addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/deportes/equipamientos/da_deportesZonasMusculacion-4326.geojson");
@@ -127,7 +128,7 @@ public class DatosAbiertosREST {
             System.out.println(e);
         }
     }
-        private JSONObject getGeojson(URL url) throws JSONException, IOException {
+        private JsonObject getGeojson(URL url) throws IOException {
         HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
         conn.addRequestProperty("Access-Control-Allow-Origin", "localhost:8080");
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -139,30 +140,30 @@ public class DatosAbiertosREST {
         }
         in.close();
         
-        JSONObject json = new JSONObject(response.toString());
-        return json;
+        JsonParser parser = new JsonParser();   
+        return parser.parse(response.toString()).getAsJsonObject();
     }
     
-    private String getFeature( String record, JSONArray records, Integer id) throws JSONException {
+    private String getFeature( String record, JsonArray records, Integer id)   {
         int i=0;
-        while(i<records.length()){
-            if(records.getJSONObject(i).get("ID_EXTERNO").toString().equals(Integer.toString(id))){
-                return records.getJSONObject(i).get(record).toString();
+        while(i<records.size()){
+            if(records.get(i).getAsJsonObject().get("ID_EXTERNO").getAsString().equals(Integer.toString(id))){
+                return records.get(i).getAsJsonObject().get(record).getAsString();
             }
             i++;
         }
         return "-1";
     }
 
-    private JSONObject masCercano(Double x, Double y, JSONArray records) throws JSONException {
+    private JsonObject masCercano(Double x, Double y, JsonArray records)   {
         int i=0;
-        JSONObject jo = null;
-        JSONObject res = null;
+        JsonObject jo = null;
+        JsonObject res = null;
         Double dist = Double.MAX_VALUE;
-        while(i<records.length()){
-            jo = records.getJSONObject(i);
-            if(distancia(jo.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0),jo.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1) , x, y)< dist){
-                dist = distancia(jo.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0),jo.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1) , x, y);
+        while(i<records.size()){
+            jo = records.get(i).getAsJsonObject();
+            if(distancia(jo.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble(), jo.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble() , x, y)< dist){
+                dist = distancia(jo.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble(), jo.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble(), x, y);
                 res = jo;
             }
             i++;
@@ -171,12 +172,12 @@ public class DatosAbiertosREST {
     }
     
     
-    private JSONArray getFeatures(JSONObject json) throws JSONException{
-        return json.getJSONArray("features");
+    private JsonArray getFeatures(JsonObject json) {
+        return json.get("features").getAsJsonArray();
     }
     
-    private JSONArray getRecords(JSONObject json) throws JSONException{
-        return json.getJSONObject("result").getJSONArray("records");
+    private JsonArray getRecords(JsonObject json) {
+        return json.get("result").getAsJsonArray();
     }
     
     private Double distancia(double latitud, double longitud, Double x, Double y) {
