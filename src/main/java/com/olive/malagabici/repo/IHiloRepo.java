@@ -5,7 +5,7 @@
  */
 package com.olive.malagabici.repo;
 
-import com.olive.malagbici.model.Hilo;
+import com.olive.malagabici.model.Hilo;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
  * @author Trigi
  */
 
-@Repository
 public interface IHiloRepo extends JpaRepository<Hilo,Integer> {
     List<Hilo> hilosPorMensajesUsuario(String id);
     List<Hilo> findByTema(String tema);

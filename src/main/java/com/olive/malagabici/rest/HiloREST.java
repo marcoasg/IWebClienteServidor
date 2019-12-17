@@ -5,7 +5,7 @@
  */
 package com.olive.malagabici.rest;
 
-import com.olive.malagbici.model.Hilo;
+import com.olive.malagabici.model.Hilo;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

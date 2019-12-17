@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.olive.malagabici.repo.IUsuarioRepo;
-import com.olive.malagbici.model.Usuario;
+import com.olive.malagabici.model.Usuario;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -5,7 +5,7 @@
  */
 package com.olive.malagabici.repo;
 
-import com.olive.malagbici.model.Tema;
+import com.olive.malagabici.model.Tema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,5 @@ import org.springframework.stereotype.Repository;
  * @author Trigi
  */
 
-@Repository
 public interface ITemaRepo extends JpaRepository<Tema,String> {
 }

@@ -7,7 +7,7 @@ package com.olive.malagabici.rest;
 
 import com.olive.malagabici.repo.IHiloRepo;
 import com.olive.malagabici.repo.IMensajeRepo;
-import com.olive.malagbici.model.Mensaje;
+import com.olive.malagabici.model.Mensaje;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

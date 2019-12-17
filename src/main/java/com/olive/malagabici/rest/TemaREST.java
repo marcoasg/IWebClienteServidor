@@ -5,7 +5,7 @@
  */
 package com.olive.malagabici.rest;
 
-import com.olive.malagbici.model.Tema;
+import com.olive.malagabici.model.Tema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.olive.malagbici.model;
+package com.olive.malagabici.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,35 +19,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Trigi
  */
+
 @Entity
-@Table(name = "mensaje")
+@Table(name = "hilo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m")
-    , @NamedQuery(name = "Mensaje.findByTexto", query = "SELECT m FROM Mensaje m WHERE m.texto = :texto")
-    , @NamedQuery(name = "Mensaje.findById", query = "SELECT m FROM Mensaje m WHERE m.id = :id")
-    , @NamedQuery(name = "Mensaje.findByFecha", query = "SELECT m FROM Mensaje m WHERE m.fecha = :fecha")
-    , @NamedQuery(name = "Mensaje.findByHilo", query = "SELECT m FROM Mensaje m WHERE m.hilo.id = :id")
-    , @NamedQuery(name = "Mensaje.findByIntervaloFechas", query = "SELECT m FROM Mensaje m WHERE m.fecha <= :fechaMaxima AND m.fecha >= :fechaMinima")})
-public class Mensaje implements Serializable {
+    @NamedQuery(name = "Hilo.findAll", query = "SELECT h FROM Hilo h")
+    , @NamedQuery(name = "Hilo.findByTitulo", query = "SELECT h FROM Hilo h WHERE h.titulo = :titulo")
+    , @NamedQuery(name = "Hilo.findById", query = "SELECT h FROM Hilo h WHERE h.id = :id")
+    , @NamedQuery(name = "Hilo.findByFecha", query = "SELECT h FROM Hilo h WHERE h.fecha = :fecha")
+    , @NamedQuery(name = "Hilo.hilosPorMensajesUsuario", query = "SELECT h FROM Hilo h, Usuario u, Mensaje m WHERE u.email = :id AND m.hilo.id = h.id AND m.usuario.email = u.email")
+    , @NamedQuery(name = "Hilo.findByTema", query = "SELECT h from Hilo h WHERE h.tema.titulo = :tema")})
+public class Hilo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
-    @Column(name = "texto")
-    private String texto;
+    @Size(min = 1, max = 50)
+    @Column(name = "titulo")
+    private String titulo;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -57,35 +62,34 @@ public class Mensaje implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "hilo", referencedColumnName = "id")
+    @JoinColumn(name = "tema", referencedColumnName = "titulo")
     @ManyToOne(optional = false)
-    private Hilo hilo;
-    @Size(max = 50)
-    @Column(name = "imagen")
-    private String imagen;
+    private Tema tema;
     @JoinColumn(name = "usuario", referencedColumnName = "email")
     @ManyToOne(optional = false)
     private Usuario usuario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hilo")
+    private Collection<Mensaje> mensajeCollection;
 
-    public Mensaje() {
+    public Hilo() {
     }
 
-    public Mensaje(Integer id) {
+    public Hilo(Integer id) {
         this.id = id;
     }
 
-    public Mensaje(Integer id, String texto, Date fecha) {
+    public Hilo(Integer id, String titulo, Date fecha) {
         this.id = id;
-        this.texto = texto;
+        this.titulo = titulo;
         this.fecha = fecha;
     }
 
-    public String getTexto() {
-        return texto;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Integer getId() {
@@ -104,12 +108,12 @@ public class Mensaje implements Serializable {
         this.fecha = fecha;
     }
 
-    public Hilo getHilo() {
-        return hilo;
+    public Tema getTema() {
+        return tema;
     }
 
-    public void setHilo(Hilo hilo) {
-        this.hilo = hilo;
+    public void setTema(Tema tema) {
+        this.tema = tema;
     }
 
     public Usuario getUsuario() {
@@ -119,13 +123,14 @@ public class Mensaje implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    public String getImagen() {
-        return imagen;
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     @Override
@@ -138,10 +143,10 @@ public class Mensaje implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Mensaje)) {
+        if (!(object instanceof Hilo)) {
             return false;
         }
-        Mensaje other = (Mensaje) object;
+        Hilo other = (Hilo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -150,7 +155,7 @@ public class Mensaje implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Mensaje[ id=" + id + " ]";
+        return "entity.Hilo[ id=" + id + " ]";
     }
     
 }

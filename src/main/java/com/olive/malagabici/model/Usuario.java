@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.olive.malagbici.model;
+package com.olive.malagabici.model;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Trigi
  */
+
 @Entity
 @Table(name = "usuario")
 @XmlRootElement
