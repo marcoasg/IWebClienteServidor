@@ -29,18 +29,13 @@ import com.google.gson.*;
 @RequestMapping("datos")
 public class DatosAbiertosREST {
 
-    @Autowired
-    private HttpServletResponse response;
 
-    @Autowired
-    private void addHeaders() {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-    }
+
 
     @GetMapping("fuentes")
     public String fuentesREST() throws MalformedURLException, IOException {
         installTrustManager();
-        addHeaders();
+
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/ambiente/fuentesaguapotable/da_medioAmbiente_fuentes-4326.geojson");
         return getGeojson(url).toString();
     }
@@ -48,7 +43,6 @@ public class DatosAbiertosREST {
     @GetMapping("musculacion")
     public String musculacionREST() throws MalformedURLException, IOException {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/deportes/equipamientos/da_deportesZonasMusculacion-4326.geojson");
         return getGeojson(url).toString();
     }
@@ -56,7 +50,6 @@ public class DatosAbiertosREST {
     @GetMapping("aparcamientos_bici")
     public String aparcamientosREST() throws MalformedURLException, IOException {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTubicaparcbici/da_aparcamientosBiciEMT-4326.geojson");
         return getGeojson(url).toString();
     }
@@ -64,7 +57,6 @@ public class DatosAbiertosREST {
     @GetMapping("carriles_bici")
     public String carrilesBici() throws MalformedURLException, IOException {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/trafico/da_carrilesBici-4326.geojson");
         return getGeojson(url).toString();
     }
@@ -72,7 +64,6 @@ public class DatosAbiertosREST {
     @GetMapping("plazas_libres/{id}")
     public String aparcamientosLibresREST(@PathVariable("id") Integer id) throws MalformedURLException, IOException  {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/api/3/action/datastore_search?resource_id=3bb304f9-9de3-4bac-943e-7acce7e8e8f9");
         return getFeature("NUM_LIBRES", getRecords(getGeojson(url)), id);
     }
@@ -80,7 +71,6 @@ public class DatosAbiertosREST {
     @GetMapping("fuente_cercana/{x}/{y}")
     public String fuente_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/ambiente/fuentesaguapotable/da_medioAmbiente_fuentes-4326.geojson");
         return masCercano(x, y, getFeatures(getGeojson(url))).toString();
     }
@@ -88,7 +78,6 @@ public class DatosAbiertosREST {
     @GetMapping("bici_cercana/{x}/{y}")
     public String bici_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTubicaparcbici/da_aparcamientosBiciEMT-4326.geojson");
         return masCercano(x, y, getFeatures(getGeojson(url))).toString();
     }
@@ -96,7 +85,6 @@ public class DatosAbiertosREST {
     @GetMapping("musculacion_cercana/{x}/{y}")
     public String musculacion_cercana(@PathVariable("x") Double x, @PathVariable("y") Double y) throws MalformedURLException, IOException  {
         installTrustManager();
-        addHeaders();
         URL url = new URL("https://datosabiertos.malaga.eu/recursos/deportes/equipamientos/da_deportesZonasMusculacion-4326.geojson");
         return masCercano(x, y, getFeatures(getGeojson(url))).toString();
     }
