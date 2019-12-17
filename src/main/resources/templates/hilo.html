@@ -106,7 +106,7 @@ and open the template in the editor.
             var hilo = "[[${hilo}]]";
 
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "http://localhost:8081/IngWebServiciosBD/webresources/entity.mensaje/from_hilo/" + hilo, false); // false for synchronous request
+            xmlHttp.open("GET", "https://malaga-bici.herokuapp.com/entity.mensaje/from_hilo/" + hilo, false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");
             xmlHttp.send(null);
 
