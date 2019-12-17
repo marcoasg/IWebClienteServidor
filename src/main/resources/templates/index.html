@@ -142,7 +142,7 @@ and open the template in the editor.
                             })
                         })]
                 };
-                var urlFuentes = 'https://malaga-bici.herokuapp.com/datos/fuentes';
+                var urlFuentes = '/datos/fuentes';
                 var capaFuentes = new ol.layer.Vector({
                     source: new ol.source.Vector({
                         url: urlFuentes,
@@ -163,7 +163,7 @@ and open the template in the editor.
                             })
                         })]
                 };
-                var urlAparcamientos = 'https://malaga-bici.herokuapp.com/datos/aparcamientos_bici';
+                var urlAparcamientos = '/datos/aparcamientos_bici';
                 var capaAparcamientos = new ol.layer.Vector({
                     source: new ol.source.Vector({
                         url: urlAparcamientos,
@@ -184,7 +184,7 @@ and open the template in the editor.
                             })
                         })]
                 };
-                var urlMusculacion = 'https://malaga-bici.herokuapp.com/datos/musculacion';
+                var urlMusculacion = '/datos/musculacion';
                 var capaMusculacion = new ol.layer.Vector({
                     source: new ol.source.Vector({
                         url: urlMusculacion,
@@ -206,7 +206,7 @@ and open the template in the editor.
                             })
                         })]
                 };
-                var urlCarriles = 'https://malaga-bici.herokuapp.com/datos/carriles_bici';
+                var urlCarriles = '/datos/carriles_bici';
                 var capaCarriles = new ol.layer.Vector({
                     source: new ol.source.Vector({
                         url: urlCarriles,
@@ -314,7 +314,7 @@ and open the template in the editor.
                 var capaFuenteCercana;
                 checkBoxFuenteCercana.addEventListener('change', function () {
                     if (this.checked) {
-                        var urlFuenteCercana = 'https://malaga-bici.herokuapp.com/datos/fuente_cercana/';
+                        var urlFuenteCercana = '/datos/fuente_cercana/';
                         urlFuenteCercana += geolocation.getPosition();
                         urlFuenteCercana = urlFuenteCercana.replace(',', '/');
                         capaFuenteCercana = new ol.layer.Vector({
@@ -337,7 +337,7 @@ and open the template in the editor.
                 var capaBiciCercana;
                 checkBoxBiciCercana.addEventListener('change', function () {
                     if (this.checked) {
-                        var urlBiciCercana = 'https://malaga-bici.herokuapp.com/datos/bici_cercana/';
+                        var urlBiciCercana = '/datos/bici_cercana/';
                         urlBiciCercana += geolocation.getPosition();
                         urlBiciCercana = urlBiciCercana.replace(',', '/');
                         capaBiciCercana = new ol.layer.Vector({
@@ -360,7 +360,7 @@ and open the template in the editor.
                 var capaMusculacionCercana;
                 checkBoxMusculacionCercana.addEventListener('change', function () {
                     if (this.checked) {
-                        var urlMusculacionCercana = 'https://malaga-bici.herokuapp.com/datos/musculacion_cercana/';
+                        var urlMusculacionCercana = '/datos/musculacion_cercana/';
                         urlMusculacionCercana += geolocation.getPosition();
                         urlMusculacionCercana = urlMusculacionCercana.replace(',', '/');
                         capaMusculacionCercana = new ol.layer.Vector({
@@ -390,7 +390,7 @@ and open the template in the editor.
                             content.innerHTML += ', Estado: ';
                             content.innerHTML += t.get('nombre_estado');
                             content.innerHTML += ', plazas libres: ';
-                            var urlPlazas = 'https://malaga-bici.herokuapp.com/datos/plazas_libres/';
+                            var urlPlazas = '/datos/plazas_libres/';
                             urlPlazas += t.get('id_externo');
                             var xmlHttp = new XMLHttpRequest();
                             xmlHttp.open("GET", urlPlazas, false); // false for synchronous request
