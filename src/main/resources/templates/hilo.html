@@ -95,7 +95,7 @@ and open the template in the editor.
 
                 //ENVIAR MENSAJE
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("POST", "https://malaga-bici.herokuapp.com/entity.mensaje/hilo/" + "[[${hilo}]]", false); // false for synchronous request
+                xmlHttp.open("POST", "/entity.mensaje/hilo/" + "[[${hilo}]]", false); // false for synchronous request
                 xmlHttp.setRequestHeader("Content-Type", "application/json");
                 xmlHttp.send(JSON.stringify(mensaje));
                 location.reload(true);
@@ -106,7 +106,7 @@ and open the template in the editor.
             var hilo = "[[${hilo}]]";
 
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "https://malaga-bici.herokuapp.com/entity.mensaje/from_hilo/" + hilo, false); // false for synchronous request
+            xmlHttp.open("GET", "/entity.mensaje/from_hilo/" + hilo, false); // false for synchronous request
             xmlHttp.setRequestHeader("Accept", "application/json");
             xmlHttp.send(null);
 

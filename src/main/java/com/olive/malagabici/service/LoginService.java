@@ -35,7 +35,7 @@ public class LoginService {
     }
 
     public void registerUser(String email, String name) {
-        String URL_SERVER_BD = "https://malaga-bici.herokuapp.com/";
+        String URL_SERVER_BD = "/";
         String URL_REGISTER_USER = "entity.usuario/postByString";
         
         try {
