@@ -134,9 +134,11 @@ public class DatosAbiertosREST {
     
     private String getFeature( String record, JsonArray records, Integer id)   {
         int i=0;
+        JsonObject json  = null;
         while(i<records.size()){
-            if(records.get(i).getAsJsonObject().get("ID_EXTERNO").getAsString().equals(Integer.toString(id))){
-                return records.get(i).getAsJsonObject().get(record).getAsString();
+            json = records.get(i).getAsJsonObject();
+            if(!json.get("ID_EXTERNO").isJsonNull()&&Integer.parseInt(json.get("ID_EXTERNO").getAsString())==id){
+                return json.get(record).getAsString();
             }
             i++;
         }
@@ -165,7 +167,7 @@ public class DatosAbiertosREST {
     }
     
     private JsonArray getRecords(JsonObject json) {
-        return json.get("result").getAsJsonArray();
+        return json.get("result").getAsJsonObject().get("records").getAsJsonArray();
     }
     
     private Double distancia(double latitud, double longitud, Double x, Double y) {
