@@ -118,7 +118,6 @@ public class DatosAbiertosREST {
     }
         private JsonObject getGeojson(URL url) throws IOException {
         HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
-        conn.addRequestProperty("Access-Control-Allow-Origin", "localhost:8080");
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String inputInline;
         StringBuffer response = new StringBuffer();

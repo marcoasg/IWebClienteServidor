@@ -35,7 +35,7 @@ public class LoginService {
     }
 
     public void registerUser(String email, String name) {
-        String URL_SERVER_BD = "http://localhost:8081/IngWebServiciosBD/webresources/";
+        String URL_SERVER_BD = "/";
         String URL_REGISTER_USER = "entity.usuario/postByString";
         
         try {
