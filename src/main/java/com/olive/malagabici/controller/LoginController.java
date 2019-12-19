@@ -25,13 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class LoginController {
-    
+
     @Autowired
     LoginService loginService;
 
     @GetMapping("/")
-    public String doWelcome(HttpServletRequest request) {
-        if (request.getSession(false) != null){
+    public String doWelcome(HttpServletRequest request) throws GeneralSecurityException, IOException {
+        String idToken = (String) request.getSession().getAttribute("idToken");
+        GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
+        if (idTokenObj != null) {
             return "index";
         } else {
             return "login";
@@ -43,7 +45,7 @@ public class LoginController {
         GoogleIdToken idTokenObj = loginService.verifyToken(idToken);
         if (idTokenObj != null) {
             GoogleIdToken.Payload payload = idTokenObj.getPayload();
-            
+
             // Get profile information from payload
             String email = payload.getEmail();
             String name = (String) payload.get("name");
