@@ -10,7 +10,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
 
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
@@ -67,7 +67,7 @@ and open the template in the editor.
             .ol-popup-closer:after {
                 content: "✖";
             }
-            
+
         </style>
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
     </head>
@@ -75,11 +75,12 @@ and open the template in the editor.
 
     <body style="background-color: #292b2c">
         <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">Olive Maps</a>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <a class="navbar-brand" href="#">Malaga Bici</a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
+                <span><i class="fa fa-map-signs"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav2">
                 <ul class="navbar-nav ">
                     <li class="nav-item active">
                         <a class="nav-link"  href="/">Mapa <span class="sr-only">(current)</span></a>
@@ -88,357 +89,351 @@ and open the template in the editor.
                         <a class="nav-link" href="/foro">Foro</a>
                     </li>
                 </ul>
+                <div class="dropdown-divider"></div>
+                <ul class="navbar-nav">
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="carriles_bici" type="checkbox" name="carriles_bici" class="custom-control-input"  /> <label class="custom-control-label" for="carriles_bici" style="color: white;">Carriles bici <i class="fa fa-safari"style="color: red"></i></label> </div> </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="fuentes" type="checkbox" name="fuentes" class="custom-control-input"/><label class="custom-control-label" for="fuentes" style="color: white;">Fuentes <i class="fa fa-tint" style="color: blue"></i></label> </div>  </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="aparcamientos" type="checkbox" name="aparcamientos" class="custom-control-input"/> <label class="custom-control-label" for="aparcamientos" style="color: white;">Aparcamientos <i class="fa fa-bicycle"style="color: yellow"></i></label> </div> </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="musculacion" type="checkbox" name="musculacion" class="custom-control-input" /> <label class="custom-control-label" for="musculacion" style="color: white;">Musculaci&oacute;n <i class="fa fa-bolt" style="color: green"></i></label> </div> </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="fuente_cercana" type="checkbox" name="fuente_cercana"  class="custom-control-input"/> <label class="custom-control-label" for="fuente_cercana" style="color: white;">Fuente m&aacute;s cercana <i class="fa fa-tint" style="color: purple"></i></label> </div> </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="bici_cercana" type="checkbox" name="bici_cercana"  class="custom-control-input"/> <label class="custom-control-label" for="bici_cercana" style="color: white;">Bicis m&aacute;s cercanas <i class="fa fa-bicycle"style="color: purple"></i></label> </div> </li>
+                    <li class="nav-item"> <div class="custom-control custom-switch"><input id="musculacion_cercana" type="checkbox" name="musculacion_cercana" class="custom-control-input" /> <label class="custom-control-label" for="musculacion_cercana" style="color: white;">Musculaci&oacute;n m&aacute;s cercana <i class="fa fa-bolt" style="color: purple"></i></label> </div> </li>
+                </ul>
             </div>
         </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2 bg-secondary">
-                    <br/>
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="carriles_bici" type="checkbox" name="carriles_bici" class="custom-control-input"  /> <label class="custom-control-label" for="carriles_bici" style="color: red">Carriles bici</label> </div> </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="fuentes" type="checkbox" name="fuentes" class="custom-control-input"/><label class="custom-control-label" for="fuentes" style="color: blue">Fuentes</label> </div>  </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="aparcamientos" type="checkbox" name="aparcamientos" class="custom-control-input"/> <label class="custom-control-label" for="aparcamientos" style="color: yellow">Aparcamientos</label> </div> </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="musculacion" type="checkbox" name="musculacion" class="custom-control-input" /> <label class="custom-control-label" for="musculacion" style="color: green">Musculaci&oacute;n</label> </div> </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="fuente_cercana" type="checkbox" name="fuente_cercana"  class="custom-control-input"/> <label class="custom-control-label" for="fuente_cercana" style="color: purple">Fuente m&aacute;s cercana</label> </div> </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="bici_cercana" type="checkbox" name="bici_cercana"  class="custom-control-input"/> <label class="custom-control-label" for="bici_cercana" style="color: purple">Bicis m&aacute;s cercanas</label> </div> </li>
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="musculacion_cercana" type="checkbox" name="musculacion_cercana" class="custom-control-input" /> <label class="custom-control-label" for="musculacion_cercana" style="color: purple">Musculaci&oacute;n m&aacute;s cercana</label> </div> </li>
-                    </ul>
-                </div>
-                <div class="col-sm-10">
-                    <div id="map" class="map"></div> 
 
-                    <div id="popup" class="ol-popup">
-                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                        <div id="popup-content"></div>
-                    </div>
-                </div>
+            <div id="map" class="map"></div> 
 
-
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
             </div>
 
 
-            <script type="text/javascript">
-                var container = document.getElementById('popup');
-                var content = document.getElementById('popup-content');
-                var closer = document.getElementById('popup-closer');
-                var map = new ol.Map({
-                    target: 'map',
-                    layers: [
-                        new ol.layer.Tile({
-                            source: new ol.source.OSM()
-                        })
-                    ],
-                    view: new ol.View({
-                        center: ol.proj.fromLonLat([-4.42, 36.72]),
-                        zoom: 18
+
+
+    <script type="text/javascript">
+        var container = document.getElementById('popup');
+        var content = document.getElementById('popup-content');
+        var closer = document.getElementById('popup-closer');
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([-4.42, 36.72]),
+                zoom: 18
+            })
+        });
+        var stylesFuentes = {
+            'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: 'blue'}),
+                        stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                        radius: 5
                     })
-                });
-                var stylesFuentes = {
-                    'Point': [new ol.style.Style({
-                            image: new ol.style.Circle({
-                                fill: new ol.style.Fill({color: 'blue'}),
-                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                                radius: 5
-                            })
-                        })]
-                };
-                var urlFuentes = '/datos/fuentes';
-                var capaFuentes = new ol.layer.Vector({
+                })]
+        };
+        var urlFuentes = '/datos/fuentes';
+        var capaFuentes = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: urlFuentes,
+                format: new ol.format.GeoJSON(),
+                projection: 'EPSG:4326'
+            }),
+            style: function (feature, resolution) {
+                return stylesFuentes[feature.getGeometry().getType()];
+            }
+
+        });
+        var stylesAparcamientos = {
+            'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: 'yellow'}),
+                        stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                        radius: 5
+                    })
+                })]
+        };
+        var urlAparcamientos = '/datos/aparcamientos_bici';
+        var capaAparcamientos = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: urlAparcamientos,
+                format: new ol.format.GeoJSON(),
+                projection: 'EPSG:4326'
+            }),
+            style: function (feature, resolution) {
+                return stylesAparcamientos[feature.getGeometry().getType()];
+            }
+
+        });
+        var stylesMusculacion = {
+            'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: 'green'}),
+                        stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                        radius: 5
+                    })
+                })]
+        };
+        var urlMusculacion = '/datos/musculacion';
+        var capaMusculacion = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: urlMusculacion,
+                format: new ol.format.GeoJSON(),
+                projection: 'EPSG:4326'
+            }),
+            style: function (feature, resolution) {
+                return stylesMusculacion[feature.getGeometry().getType()];
+            }
+
+        });
+
+        var stylesCarriles = {
+
+            'LineString': [new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'red',
+                        width: 4
+                    })
+                })]
+        };
+        var urlCarriles = '/datos/carriles_bici';
+        var capaCarriles = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: urlCarriles,
+                format: new ol.format.GeoJSON()
+            }),
+            style: function (feature, resolution) {
+                return stylesCarriles[feature.getGeometry().getType()];
+            }
+
+        });
+        var stylesPosicion = {
+            'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: [0, 255, 255, 1]}),
+                        stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                        radius: 5
+                    })
+                })]
+        };
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point([])
+        });
+
+        var source = new ol.source.Vector({
+            features: [iconFeature],
+            projection: 'EPSG:4326'
+        });
+        var geoloc = new ol.Geolocation({
+            tracking: true,
+            trackingOptions: {
+                enableHighAccuracy: true
+            },
+            projection: map.getView().getProjection()
+        });
+        var geolocation = new ol.Geolocation({
+            tracking: true,
+            trackingOptions: {
+                enableHighAccuracy: true
+            },
+            projection: 'EPSG4326'
+        });
+        geoloc.on('change', function () {
+            var coord = geoloc.getPosition();
+            iconFeature.getGeometry().setCoordinates(coord);
+            map.removeLayer(capaPosicion);
+            map.addLayer(capaPosicion);
+        });
+        var capaPosicion = new ol.layer.Vector({
+            source: source,
+            style: function (feature, resolution) {
+                return stylesPosicion[feature.getGeometry().getType()];
+            }
+        });
+        var checkboxFuentes = document.getElementById("fuentes");
+        checkboxFuentes.addEventListener('change', function () {
+            if (this.checked) {
+                // Checkbox is checked..
+                map.addLayer(capaFuentes);
+            } else {
+                // Checkbox is not checked..
+                map.removeLayer(capaFuentes);
+            }
+        });
+        var checkboxAparcamientos = document.getElementById("aparcamientos");
+        checkboxAparcamientos.addEventListener('change', function () {
+            if (this.checked) {
+                // Checkbox is checked..
+                map.addLayer(capaAparcamientos);
+            } else {
+                // Checkbox is not checked..
+                map.removeLayer(capaAparcamientos);
+            }
+        });
+        var checkboxMusculacion = document.getElementById("musculacion");
+        checkboxMusculacion.addEventListener('change', function () {
+            if (this.checked) {
+                // Checkbox is checked..
+                map.addLayer(capaMusculacion);
+            } else {
+                // Checkbox is not checked..
+                map.removeLayer(capaMusculacion);
+            }
+        });
+        var checkboxCarriles = document.getElementById("carriles_bici");
+        checkboxCarriles.addEventListener('change', function () {
+            if (this.checked) {
+                // Checkbox is checked..
+                map.addLayer(capaCarriles);
+            } else {
+                // Checkbox is not checked..
+                map.removeLayer(capaCarriles);
+            }
+        });
+        map.addLayer(capaPosicion);
+        var stylesCercana = {
+            'Point': [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: 'pink'}),
+                        stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
+                        radius: 5
+                    })
+                })]
+        };
+        var checkBoxFuenteCercana = document.getElementById("fuente_cercana");
+        var capaFuenteCercana;
+        checkBoxFuenteCercana.addEventListener('change', function () {
+            if (this.checked) {
+                var urlFuenteCercana = '/datos/fuente_cercana/';
+                urlFuenteCercana += geolocation.getPosition();
+                urlFuenteCercana = urlFuenteCercana.replace(',', '/');
+                capaFuenteCercana = new ol.layer.Vector({
                     source: new ol.source.Vector({
-                        url: urlFuentes,
+                        url: urlFuenteCercana,
                         format: new ol.format.GeoJSON(),
                         projection: 'EPSG:4326'
                     }),
                     style: function (feature, resolution) {
-                        return stylesFuentes[feature.getGeometry().getType()];
+                        return stylesCercana[feature.getGeometry().getType()];
                     }
 
                 });
-                var stylesAparcamientos = {
-                    'Point': [new ol.style.Style({
-                            image: new ol.style.Circle({
-                                fill: new ol.style.Fill({color: 'yellow'}),
-                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                                radius: 5
-                            })
-                        })]
-                };
-                var urlAparcamientos = '/datos/aparcamientos_bici';
-                var capaAparcamientos = new ol.layer.Vector({
+                map.addLayer(capaFuenteCercana);
+            } else {
+                map.removeLayer(capaFuenteCercana);
+            }
+        });
+        var checkBoxBiciCercana = document.getElementById("bici_cercana");
+        var capaBiciCercana;
+        checkBoxBiciCercana.addEventListener('change', function () {
+            if (this.checked) {
+                var urlBiciCercana = '/datos/bici_cercana/';
+                urlBiciCercana += geolocation.getPosition();
+                urlBiciCercana = urlBiciCercana.replace(',', '/');
+                capaBiciCercana = new ol.layer.Vector({
                     source: new ol.source.Vector({
-                        url: urlAparcamientos,
+                        url: urlBiciCercana,
                         format: new ol.format.GeoJSON(),
                         projection: 'EPSG:4326'
                     }),
                     style: function (feature, resolution) {
-                        return stylesAparcamientos[feature.getGeometry().getType()];
+                        return stylesCercana[feature.getGeometry().getType()];
                     }
 
                 });
-                var stylesMusculacion = {
-                    'Point': [new ol.style.Style({
-                            image: new ol.style.Circle({
-                                fill: new ol.style.Fill({color: 'green'}),
-                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                                radius: 5
-                            })
-                        })]
-                };
-                var urlMusculacion = '/datos/musculacion';
-                var capaMusculacion = new ol.layer.Vector({
+                map.addLayer(capaBiciCercana);
+            } else {
+                map.removeLayer(capaBiciCercana);
+            }
+        });
+        var checkBoxMusculacionCercana = document.getElementById("musculacion_cercana");
+        var capaMusculacionCercana;
+        checkBoxMusculacionCercana.addEventListener('change', function () {
+            if (this.checked) {
+                var urlMusculacionCercana = '/datos/musculacion_cercana/';
+                urlMusculacionCercana += geolocation.getPosition();
+                urlMusculacionCercana = urlMusculacionCercana.replace(',', '/');
+                capaMusculacionCercana = new ol.layer.Vector({
                     source: new ol.source.Vector({
-                        url: urlMusculacion,
+                        url: urlMusculacionCercana,
                         format: new ol.format.GeoJSON(),
                         projection: 'EPSG:4326'
                     }),
                     style: function (feature, resolution) {
-                        return stylesMusculacion[feature.getGeometry().getType()];
+                        return stylesCercana[feature.getGeometry().getType()];
                     }
 
                 });
+                map.addLayer(capaMusculacionCercana);
+            } else {
+                map.removeLayer(capaMusculacionCercana);
+            }
+        });
+        var seleccion = new ol.interaction.Select();
+        map.addInteraction(seleccion);
+        seleccion.on('select', function (e) {
+            var seleccionados = e.target.getFeatures();
+            seleccionados.forEach(function (t) {
+                if (t.get('direccion')) {
+                    content.innerHTML = t.get('direccion');
 
-                var stylesCarriles = {
-                    
-                    'LineString': [new ol.style.Style({
-                            stroke: new ol.style.Stroke({
-                                color: 'red',
-                                width: 4
-                            })
-                        })]
-                };
-                var urlCarriles = '/datos/carriles_bici';
-                var capaCarriles = new ol.layer.Vector({
-                    source: new ol.source.Vector({
-                        url: urlCarriles,
-                        format: new ol.format.GeoJSON()
-                    }),
-                    style: function (feature, resolution) {
-                        return stylesCarriles[feature.getGeometry().getType()];
-                    }
+                    content.innerHTML += ', Estado: ';
+                    content.innerHTML += t.get('nombre_estado');
+                    content.innerHTML += ', plazas libres: ';
+                    var urlPlazas = '/datos/plazas_libres/';
+                    urlPlazas += t.get('id_externo');
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open("GET", urlPlazas, false); // false for synchronous request
+                    xmlHttp.send(null);
+                    result = xmlHttp.responseText;
+                    content.innerHTML += result;
 
-                });
-                var stylesPosicion = {
-                    'Point': [new ol.style.Style({
-                            image: new ol.style.Circle({
-                                fill: new ol.style.Fill({color: [0, 255, 255, 1]}),
-                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                                radius: 5
-                            })
-                        })]
-                };
-                var iconFeature = new ol.Feature({
-                    geometry: new ol.geom.Point([])
-                });
-
-                var source = new ol.source.Vector({
-                    features: [iconFeature],
-                    projection: 'EPSG:4326'
-                });
-                var geoloc = new ol.Geolocation({
-                    tracking: true,
-                    trackingOptions: {
-                        enableHighAccuracy: true
-                    },
-                    projection: map.getView().getProjection()
-                });
-                var geolocation = new ol.Geolocation({
-                    tracking: true,
-                    trackingOptions: {
-                        enableHighAccuracy: true
-                    },
-                    projection: 'EPSG4326'
-                });
-                geoloc.on('change', function () {
-                    var coord = geoloc.getPosition();
-                    iconFeature.getGeometry().setCoordinates(coord);
-                    map.removeLayer(capaPosicion);
-                    map.addLayer(capaPosicion);
-                });
-                var capaPosicion = new ol.layer.Vector({
-                    source: source,
-                    style: function (feature, resolution) {
-                        return stylesPosicion[feature.getGeometry().getType()];
-                    }
-                });
-                var checkboxFuentes = document.getElementById("fuentes");
-                checkboxFuentes.addEventListener('change', function () {
-                    if (this.checked) {
-                        // Checkbox is checked..
-                        map.addLayer(capaFuentes);
-                    } else {
-                        // Checkbox is not checked..
-                        map.removeLayer(capaFuentes);
-                    }
-                });
-                var checkboxAparcamientos = document.getElementById("aparcamientos");
-                checkboxAparcamientos.addEventListener('change', function () {
-                    if (this.checked) {
-                        // Checkbox is checked..
-                        map.addLayer(capaAparcamientos);
-                    } else {
-                        // Checkbox is not checked..
-                        map.removeLayer(capaAparcamientos);
-                    }
-                });
-                var checkboxMusculacion = document.getElementById("musculacion");
-                checkboxMusculacion.addEventListener('change', function () {
-                    if (this.checked) {
-                        // Checkbox is checked..
-                        map.addLayer(capaMusculacion);
-                    } else {
-                        // Checkbox is not checked..
-                        map.removeLayer(capaMusculacion);
-                    }
-                });
-                var checkboxCarriles = document.getElementById("carriles_bici");
-                checkboxCarriles.addEventListener('change', function () {
-                    if (this.checked) {
-                        // Checkbox is checked..
-                        map.addLayer(capaCarriles);
-                    } else {
-                        // Checkbox is not checked..
-                        map.removeLayer(capaCarriles);
-                    }
-                });
-                map.addLayer(capaPosicion);
-                var stylesCercana = {
-                    'Point': [new ol.style.Style({
-                            image: new ol.style.Circle({
-                                fill: new ol.style.Fill({color: 'pink'}),
-                                stroke: new ol.style.Stroke({color: [0, 0, 0, 1]}),
-                                radius: 5
-                            })
-                        })]
-                };
-                var checkBoxFuenteCercana = document.getElementById("fuente_cercana");
-                var capaFuenteCercana;
-                checkBoxFuenteCercana.addEventListener('change', function () {
-                    if (this.checked) {
-                        var urlFuenteCercana = '/datos/fuente_cercana/';
-                        urlFuenteCercana += geolocation.getPosition();
-                        urlFuenteCercana = urlFuenteCercana.replace(',', '/');
-                        capaFuenteCercana = new ol.layer.Vector({
-                            source: new ol.source.Vector({
-                                url: urlFuenteCercana,
-                                format: new ol.format.GeoJSON(),
-                                projection: 'EPSG:4326'
-                            }),
-                            style: function (feature, resolution) {
-                                return stylesCercana[feature.getGeometry().getType()];
-                            }
-
-                        });
-                        map.addLayer(capaFuenteCercana);
-                    } else {
-                        map.removeLayer(capaFuenteCercana);
-                    }
-                });
-                var checkBoxBiciCercana = document.getElementById("bici_cercana");
-                var capaBiciCercana;
-                checkBoxBiciCercana.addEventListener('change', function () {
-                    if (this.checked) {
-                        var urlBiciCercana = '/datos/bici_cercana/';
-                        urlBiciCercana += geolocation.getPosition();
-                        urlBiciCercana = urlBiciCercana.replace(',', '/');
-                        capaBiciCercana = new ol.layer.Vector({
-                            source: new ol.source.Vector({
-                                url: urlBiciCercana,
-                                format: new ol.format.GeoJSON(),
-                                projection: 'EPSG:4326'
-                            }),
-                            style: function (feature, resolution) {
-                                return stylesCercana[feature.getGeometry().getType()];
-                            }
-
-                        });
-                        map.addLayer(capaBiciCercana);
-                    } else {
-                        map.removeLayer(capaBiciCercana);
-                    }
-                });
-                var checkBoxMusculacionCercana = document.getElementById("musculacion_cercana");
-                var capaMusculacionCercana;
-                checkBoxMusculacionCercana.addEventListener('change', function () {
-                    if (this.checked) {
-                        var urlMusculacionCercana = '/datos/musculacion_cercana/';
-                        urlMusculacionCercana += geolocation.getPosition();
-                        urlMusculacionCercana = urlMusculacionCercana.replace(',', '/');
-                        capaMusculacionCercana = new ol.layer.Vector({
-                            source: new ol.source.Vector({
-                                url: urlMusculacionCercana,
-                                format: new ol.format.GeoJSON(),
-                                projection: 'EPSG:4326'
-                            }),
-                            style: function (feature, resolution) {
-                                return stylesCercana[feature.getGeometry().getType()];
-                            }
-
-                        });
-                        map.addLayer(capaMusculacionCercana);
-                    } else {
-                        map.removeLayer(capaMusculacionCercana);
-                    }
-                });
-                var seleccion = new ol.interaction.Select();
-                map.addInteraction(seleccion);
-                seleccion.on('select', function (e) {
-                    var seleccionados = e.target.getFeatures();
-                    seleccionados.forEach(function (t) {
-                        if (t.get('direccion')) {
-                            content.innerHTML = t.get('direccion');
-
-                            content.innerHTML += ', Estado: ';
-                            content.innerHTML += t.get('nombre_estado');
-                            content.innerHTML += ', plazas libres: ';
-                            var urlPlazas = '/datos/plazas_libres/';
-                            urlPlazas += t.get('id_externo');
-                            var xmlHttp = new XMLHttpRequest();
-                            xmlHttp.open("GET", urlPlazas, false); // false for synchronous request
-                            xmlHttp.send(null);
-                            result = xmlHttp.responseText;
-                            content.innerHTML += result;
-
-                            overlay.setPosition(t.getGeometry().getCoordinates());
-                            map.addOverlay(overlay);
-                        } else if (t.get('DIRECCION')) {
-                            content.innerHTML = t.get('DIRECCION');
-                            overlay.setPosition(t.getGeometry().getCoordinates());
-                            map.addOverlay(overlay);
-                        } else if (t.get('name')) {
-                            content.innerHTML = t.get('name');
-                            overlay.setPosition(t.getGeometry().getFirstCoordinate());
-                            map.addOverlay(overlay);
-                        } else if (t.get('ogc_fid')) {
-                            content.innerHTML = t.get('nombre');
-                            overlay.setPosition(t.getGeometry().getCoordinates());
-                            map.addOverlay(overlay);
-                        } else {
-                            content.innerHTML = 'Mi Posici&oacute;n';
-                            overlay.setPosition(geoloc.getPosition());
-                            map.addOverlay(overlay);
-                        }
+                    overlay.setPosition(t.getGeometry().getCoordinates());
+                    map.addOverlay(overlay);
+                } else if (t.get('DIRECCION')) {
+                    content.innerHTML = t.get('DIRECCION');
+                    overlay.setPosition(t.getGeometry().getCoordinates());
+                    map.addOverlay(overlay);
+                } else if (t.get('name')) {
+                    content.innerHTML = t.get('name');
+                    overlay.setPosition(t.getGeometry().getFirstCoordinate());
+                    map.addOverlay(overlay);
+                } else if (t.get('ogc_fid')) {
+                    content.innerHTML = t.get('nombre');
+                    overlay.setPosition(t.getGeometry().getCoordinates());
+                    map.addOverlay(overlay);
+                } else {
+                    content.innerHTML = 'Mi Posici&oacute;n';
+                    overlay.setPosition(geoloc.getPosition());
+                    map.addOverlay(overlay);
+                }
 
 
 
 
-                    });
+            });
 
-                });
+        });
 
-                var overlay = new ol.Overlay({
-                    element: container
-                });
-                closer.onclick = function () {
-                    overlay.setPosition(undefined);
-                    closer.blur();
-                    return false;
-                };
+        var overlay = new ol.Overlay({
+            element: container
+        });
+        closer.onclick = function () {
+            overlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
 
 
-            </script>
-            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    </body>
+</body>
 </html>
