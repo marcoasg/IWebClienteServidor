@@ -89,13 +89,13 @@ and open the template in the editor.
                     </li>
                 </ul>
             </div>
-        </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2 bg-secondary">
-                    <br/>
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="carriles_bici" type="checkbox" name="carriles_bici" class="custom-control-input"  /> <label class="custom-control-label" for="carriles_bici" style="color: red">Carriles bici</label> </div> </li>
+                
+                                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-map-marker-alt"></span>
+  </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="list-group">
+                        <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="carriles_bici" type="checkbox" name="carriles_bici" class="custom-control-input"  /> <label class="custom-control-label fas fa-bicycle" for="carriles_bici" style="color: red">Carriles bici</label> </div> </li>
                         <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="fuentes" type="checkbox" name="fuentes" class="custom-control-input"/><label class="custom-control-label" for="fuentes" style="color: blue">Fuentes</label> </div>  </li>
                         <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="aparcamientos" type="checkbox" name="aparcamientos" class="custom-control-input"/> <label class="custom-control-label" for="aparcamientos" style="color: yellow">Aparcamientos</label> </div> </li>
                         <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="musculacion" type="checkbox" name="musculacion" class="custom-control-input" /> <label class="custom-control-label" for="musculacion" style="color: green">Musculaci&oacute;n</label> </div> </li>
@@ -103,7 +103,9 @@ and open the template in the editor.
                         <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="bici_cercana" type="checkbox" name="bici_cercana"  class="custom-control-input"/> <label class="custom-control-label" for="bici_cercana" style="color: purple">Bicis m&aacute;s cercanas</label> </div> </li>
                         <li class="list-group-item list-group-item-secondary"> <div class="custom-control custom-switch"><input id="musculacion_cercana" type="checkbox" name="musculacion_cercana" class="custom-control-input" /> <label class="custom-control-label" for="musculacion_cercana" style="color: purple">Musculaci&oacute;n m&aacute;s cercana</label> </div> </li>
                     </ul>
-                </div>
+            </div>
+        </nav>
+
                 <div class="col-sm-10">
                     <div id="map" class="map"></div> 
 
