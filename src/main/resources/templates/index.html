@@ -248,6 +248,7 @@ and open the template in the editor.
             iconFeature.getGeometry().setCoordinates(coord);
             map.removeLayer(capaPosicion);
             map.addLayer(capaPosicion);
+            map.getView().setCenter(ol.proj.fromLonLat(coord));
         });
         var capaPosicion = new ol.layer.Vector({
             source: source,
