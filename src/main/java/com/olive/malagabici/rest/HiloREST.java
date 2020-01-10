@@ -6,11 +6,11 @@
 package com.olive.malagabici.rest;
 
 import com.olive.malagabici.model.Hilo;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.olive.malagabici.repo.IHiloRepo;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +33,7 @@ public class HiloREST {
 
     @PostMapping
     public void create(@RequestBody Hilo entity) {
-        entity.setFecha(new Date());
+        entity.setFecha(new Timestamp(System.currentTimeMillis()));
         repo.save(entity);
     }
 

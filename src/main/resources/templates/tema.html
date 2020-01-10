@@ -68,8 +68,9 @@ and open the template in the editor.
             function crearHilo() {
                 var titulo = document.getElementById("inputTituloHilo");
                 var hilo = new Object();
-                hilo.titulo = titulo.value;
                 hilo.id = 0;
+                hilo.titulo = titulo.value;
+                hilo.fecha = new Date().toISOString().slice(0, 19);//.replace('T', ' ');
                 var tema = new Object();
                 tema.titulo = "[[${tema}]]";
                 tema.descripcion = "[[${descripcion}]]";
@@ -78,7 +79,6 @@ and open the template in the editor.
                 usuario.email = "[[${usuario}]]";
                 usuario.token = "[[${token}]]";
                 hilo.usuario = usuario;
-                hilo.fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
                 var xmlHttp = new XMLHttpRequest();
                 xmlHttp.open("POST", "/entity.hilo/", false); // false for synchronous request
@@ -119,7 +119,7 @@ and open the template in the editor.
                 //Usuario y fecha de creacion
                 var usuarioYFecha = document.createElement("p");
                 var negrita = document.createElement("b");
-                negrita.innerHTML = "Creado por: " + hilo.usuario.token + " el " + hilo.fecha.substring(0, 10);
+                //negrita.innerHTML = "Creado por: " + hilo.usuario.token + " el " + hilo.fecha.substring(0, 10);
                 usuarioYFecha.appendChild(negrita);
 
                 //Creacion formulario

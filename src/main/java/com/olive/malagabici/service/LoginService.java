@@ -9,6 +9,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.olive.malagabici.model.Usuario;
+import com.olive.malagabici.repo.IUsuarioRepo;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -16,6 +18,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  *
@@ -23,6 +27,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginService {
+    
+    @Autowired
+    private IUsuarioRepo usuarioRepo;
 
     final static String CLIENT_ID = "1019387256307-v6e72mosg75v9qq6bjb042pkbquq9hr5.apps.googleusercontent.com";
 
@@ -35,24 +42,10 @@ public class LoginService {
     }
 
     public void registerUser(String email, String name) {
-        String URL_SERVER_BD = "/";
-        String URL_REGISTER_USER = "entity.usuario/postByString";
-        
-        try {
-            String url = new StringBuilder(URL_SERVER_BD + URL_REGISTER_USER)
-                    .append("?email=")
-                    .append(email)
-                    .append("&name=")
-                    .append(name)
-                    .toString().replaceAll("\\s", "");
-
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpPost httpPost = new HttpPost(url);
-            httpClient.execute(httpPost);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Usuario u = new Usuario();
+        u.setEmail(email);
+        u.setToken(name);
+        usuarioRepo.save(u);
     }
 
     public GoogleIdToken verifyToken(String idToken) throws GeneralSecurityException, IOException {

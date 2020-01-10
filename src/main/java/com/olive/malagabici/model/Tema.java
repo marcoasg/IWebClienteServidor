@@ -5,12 +5,14 @@
  */
 package com.olive.malagabici.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -45,7 +47,8 @@ public class Tema implements Serializable {
     @Size(max = 200)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tema")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tema", fetch = FetchType.EAGER)
+    @JsonManagedReference(value="hilo-tema")
     private Collection<Hilo> hiloCollection;
 
     public Tema() {

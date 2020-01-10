@@ -84,9 +84,9 @@ and open the template in the editor.
                 var mensaje = new Object();
                 mensaje.texto = texto.value;
                 mensaje.id = 0;
-                mensaje.fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                mensaje.fecha = new Date().toISOString().slice(0, 19);//.replace('T', ' ');
 
-                mensaje.hilo = "[[${hilo}]]";
+                mensaje.hilo = parseInt("[[${hilo}]]");
                 var usuario = new Object();
                 usuario.email = "[[${usuario}]]";
                 usuario.token = "[[${token}]]";
@@ -137,7 +137,7 @@ and open the template in the editor.
                 //Usuario y fecha de creacion
                 var usuario = document.createElement("p");
                 var negrita = document.createElement("b");
-                negrita.innerHTML = "Enviado por: " + mensaje.usuario.token;
+                //negrita.innerHTML = "Enviado por: " + mensaje.usuario.token;
                 usuario.appendChild(negrita);
 
                 var fecha = document.createElement("p");
@@ -152,7 +152,7 @@ and open the template in the editor.
                 li.style = "border-bottom: thin solid #fce9bb";
                 li.appendChild(usuario);
                 li.appendChild(elemento);
-                if (imgData.status != 404) {
+                if (imgData.status >= 200 && imgData.status < 300) {
                     li.appendChild(foto);
                 }
                 li.appendChild(document.createElement("br"));

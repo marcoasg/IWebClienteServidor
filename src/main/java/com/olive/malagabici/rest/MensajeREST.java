@@ -8,6 +8,7 @@ package com.olive.malagabici.rest;
 import com.olive.malagabici.repo.IHiloRepo;
 import com.olive.malagabici.repo.IMensajeRepo;
 import com.olive.malagabici.model.Mensaje;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,14 @@ public class MensajeREST {
 
     @PostMapping
     public void create(@RequestBody Mensaje entity) {
-        entity.setFecha(new Date());
+        entity.setFecha(new Timestamp(System.currentTimeMillis()));
         System.err.println(entity.getHilo().toString());
         repo.save(entity);
     }
 
     @PostMapping("hilo/{hilo}")
     public void create2(@PathVariable("hilo") Integer hilo, @RequestBody Mensaje entity) {
-        entity.setFecha(new Date());
+        entity.setFecha(new Timestamp(System.currentTimeMillis()));
         entity.setHilo(hiloRepo.getOne(hilo));
         repo.save(entity);
     }

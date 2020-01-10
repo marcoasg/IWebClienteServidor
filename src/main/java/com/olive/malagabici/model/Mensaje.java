@@ -5,6 +5,7 @@
  */
 package com.olive.malagabici.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -48,7 +49,7 @@ public class Mensaje implements Serializable {
     @Column(name = "texto")
     private String texto;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
@@ -60,12 +61,14 @@ public class Mensaje implements Serializable {
     private Date fecha;
     @JoinColumn(name = "hilo", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonBackReference(value="hilo-mensaje")
     private Hilo hilo;
     @Size(max = 50)
     @Column(name = "imagen")
     private String imagen;
     @JoinColumn(name = "usuario", referencedColumnName = "email")
     @ManyToOne(optional = false)
+    @JsonBackReference(value="mensaje-usuario")
     private Usuario usuario;
 
     public Mensaje() {

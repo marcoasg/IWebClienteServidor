@@ -5,6 +5,8 @@
  */
 package com.olive.malagabici.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +55,7 @@ public class Hilo implements Serializable {
     @Column(name = "titulo")
     private String titulo;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
@@ -63,12 +66,15 @@ public class Hilo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "tema", referencedColumnName = "titulo")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JsonBackReference(value="hilo-tema")
     private Tema tema;
     @JoinColumn(name = "usuario", referencedColumnName = "email")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JsonBackReference(value="hilo-usuario")
     private Usuario usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hilo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hilo", fetch = FetchType.EAGER)
+    @JsonManagedReference(value="hilo-mensaje")
     private Collection<Mensaje> mensajeCollection;
 
     public Hilo() {
