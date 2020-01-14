@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.olive</groupId>
     <artifactId>malagabici</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.RELEASE</version>
     <name>A6_IngWebClienteServidor</name>
     <description>Cliente y Servidor web</description>
 
