@@ -111,6 +111,7 @@ and open the template in the editor.
             xmlHttp.send(null);
 
             var mensajesText = xmlHttp.response;
+            console.log(mensajesText);
             var mensajes = JSON.parse(mensajesText);
             var lista = document.getElementById("lista");
 
@@ -138,6 +139,7 @@ and open the template in the editor.
                 var usuario = document.createElement("p");
                 var negrita = document.createElement("b");
                 //negrita.innerHTML = "Enviado por: " + mensaje.usuario.token;
+                console.log(mensaje);
                 usuario.appendChild(negrita);
 
                 var fecha = document.createElement("p");

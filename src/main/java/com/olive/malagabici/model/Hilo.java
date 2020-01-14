@@ -73,7 +73,7 @@ public class Hilo implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JsonBackReference(value="hilo-usuario")
     private Usuario usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hilo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hilo")
     @JsonManagedReference(value="hilo-mensaje")
     private Collection<Mensaje> mensajeCollection;
 

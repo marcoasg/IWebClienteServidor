@@ -47,7 +47,7 @@ public class Tema implements Serializable {
     @Size(max = 200)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tema", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tema")
     @JsonManagedReference(value="hilo-tema")
     private Collection<Hilo> hiloCollection;
 

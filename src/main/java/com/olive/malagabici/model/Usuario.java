@@ -5,6 +5,7 @@
  */
 package com.olive.malagabici.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Collection;
@@ -53,10 +54,12 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 225)
     @Column(name = "token")
     private String token;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @JsonIgnore
     @JsonManagedReference(value="hilo-usuario")
     private Collection<Hilo> hiloCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @JsonIgnore
     @JsonManagedReference(value="mensaje-usuario")
     private Collection<Mensaje> mensajeCollection;
 
