@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
       .requiresSecure();
     http.csrf().disable();
-    http.headers().addHeaderWriter(new XFrameOptionsHeaderWriter(new WhiteListedAllowFromStrategy(Arrays.asList("*"))));
+    //http.headers().addHeaderWriter(new XFrameOptionsHeaderWriter(new WhiteListedAllowFromStrategy(Arrays.asList("*"))));
+    http.headers().frameOptions().disable();
   }
 }
